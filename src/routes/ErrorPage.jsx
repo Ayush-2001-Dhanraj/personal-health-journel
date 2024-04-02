@@ -1,0 +1,29 @@
+import React from "react";
+import { useRouteError } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
+
+function ErrorPage() {
+  const error = useRouteError();
+  console.log(error);
+
+  return (
+    <Box
+      sx={{
+        justifyContent: "center",
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
+      <Typography variant="h3">Oops!</Typography>
+      <Typography variant="body1">
+        Sorry, an unexpected error has occurred.
+      </Typography>
+      <Typography variant="body2">
+        <i>{error.statusText || error.message}</i>
+      </Typography>
+    </Box>
+  );
+}
+
+export default ErrorPage;
