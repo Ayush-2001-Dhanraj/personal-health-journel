@@ -1,11 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Root from "./routes/root";
-import ErrorPage from "./routes/ErrorPage";
-import Dashboard from "./routes/Dashboard";
-import Profile from "./routes/Profile";
-import Auth from "./routes/Auth";
+import { Provider } from "react-redux";
+import Root from "./screens/root";
+import ErrorPage from "./screens/ErrorPage";
+import Dashboard from "./screens/Dashboard";
+import Profile from "./screens/Profile";
+import Auth from "./screens/Auth";
+import store from "./store";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +34,8 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
