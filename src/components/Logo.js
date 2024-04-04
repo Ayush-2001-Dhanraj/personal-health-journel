@@ -9,7 +9,7 @@ function Logo() {
         component="img"
         sx={{
           height: 40,
-          maxHeight: { xs: 25, md: 40 },
+          maxHeight: { xs: 30, md: 40 },
         }}
         alt="Logo"
         src={logo}

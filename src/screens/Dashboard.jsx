@@ -15,7 +15,11 @@ import Record from "../components/Record";
 
 function Dashboard() {
   const { records } = useSelector((state) => state.global);
-  console.log("sdk records", records);
+
+  const handleRecordClick = (r) => {
+    console.log("sdk Record clicked", r);
+  };
+
   return (
     <Box>
       {/* Add Entry Btn */}
@@ -36,7 +40,7 @@ function Dashboard() {
                 <TimelineConnector />
               </TimelineSeparator>
               <TimelineContent>
-                <Record r={r} />
+                <Record r={r} onClick={handleRecordClick} />
               </TimelineContent>
             </TimelineItem>
           ))}
