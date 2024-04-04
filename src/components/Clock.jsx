@@ -7,9 +7,18 @@ function Clock() {
     setInterval(() => {
       const dateObject = new Date();
 
-      const hour = dateObject.getHours();
-      const minute = dateObject.getMinutes();
-      const second = dateObject.getSeconds();
+      const hour =
+        dateObject.getHours() < 10
+          ? "0" + dateObject.getHours()
+          : dateObject.getHours();
+      const minute =
+        dateObject.getMinutes() < 10
+          ? "0" + dateObject.getMinutes()
+          : dateObject.getMinutes();
+      const second =
+        dateObject.getSeconds() < 10
+          ? "0" + dateObject.getSeconds()
+          : dateObject.getSeconds();
 
       const currentTime = hour + " : " + minute + " : " + second;
 

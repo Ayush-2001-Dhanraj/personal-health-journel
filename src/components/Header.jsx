@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Logo from "./Logo";
 import Clock from "./Clock";
 
@@ -18,6 +18,7 @@ function Header() {
       </Box>
       <Box>
         <Clock />
+        <Typography variant="caption">Ayush Dhanraj</Typography>
       </Box>
     </Box>
   );
