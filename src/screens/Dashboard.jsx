@@ -14,16 +14,22 @@ import {
 
 import Record from "../components/Record";
 import AddRecordModal from "../components/AddRecord";
+import ViewRecordModel from "../components/ViewRecord";
 
 function Dashboard() {
   const { records } = useSelector((state) => state.global);
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [isAddOpen, setIsAddOpen] = useState(false);
+  const handleAddOpen = () => setIsAddOpen(true);
+  const handleAddClose = () => setIsAddOpen(false);
+
+  const [isViewOpen, setIsViewOpen] = useState(false);
+  const handleViewOpen = () => setIsViewOpen(true);
+  const handleViewClose = () => setIsViewOpen(false);
 
   const handleRecordClick = (r) => {
     console.log("sdk Record clicked", r);
+    handleViewOpen();
   };
 
   return (
@@ -32,7 +38,7 @@ function Dashboard() {
       <Box
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
-        <Fab size="small" color="primary" onClick={handleOpen}>
+        <Fab size="small" color="primary" onClick={handleAddOpen}>
           <AddIcon />
         </Fab>
       </Box>
@@ -51,7 +57,8 @@ function Dashboard() {
             </TimelineItem>
           ))}
       </Timeline>
-      <AddRecordModal open={open} handleClose={handleClose} />
+      <AddRecordModal open={isAddOpen} handleClose={handleAddClose} />
+      <ViewRecordModel open={isViewOpen} handleClose={handleViewClose} />
     </Box>
   );
 }
