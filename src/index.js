@@ -8,6 +8,7 @@ import Dashboard from "./screens/Dashboard";
 import Profile from "./screens/Profile";
 import Auth from "./screens/Auth";
 import store from "./store";
+import "./index.css";
 
 const router = createBrowserRouter([
   {
@@ -23,11 +24,12 @@ const router = createBrowserRouter([
         path: "/profile",
         element: <Profile />,
       },
-      {
-        path: "/auth",
-        element: <Auth />,
-      },
     ],
+  },
+  {
+    path: "/auth",
+    element: <Auth />,
+    errorElement: <ErrorPage />,
   },
 ]);
 
