@@ -5,7 +5,6 @@ import Logo from "../components/Logo";
 
 function ErrorPage() {
   const error = useRouteError();
-  console.log(error);
 
   return (
     <Box

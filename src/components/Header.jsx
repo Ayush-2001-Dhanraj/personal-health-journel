@@ -9,7 +9,6 @@ function Header() {
   const navigate = useNavigate();
 
   const handleClickUserName = () => {
-    console.log("Clicked");
     navigate("/profile");
   };
 
