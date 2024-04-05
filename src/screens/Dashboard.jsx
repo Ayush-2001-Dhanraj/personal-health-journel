@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 import { Fab, Box } from "@mui/material";
@@ -11,10 +11,16 @@ import {
   TimelineContent,
   TimelineDot,
 } from "@mui/lab";
+
 import Record from "../components/Record";
+import AddRecordModal from "../components/AddRecordModal";
 
 function Dashboard() {
   const { records } = useSelector((state) => state.global);
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleRecordClick = (r) => {
     console.log("sdk Record clicked", r);
@@ -26,7 +32,7 @@ function Dashboard() {
       <Box
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
-        <Fab size="small" color="primary">
+        <Fab size="small" color="primary" onClick={handleOpen}>
           <AddIcon />
         </Fab>
       </Box>
@@ -45,6 +51,7 @@ function Dashboard() {
             </TimelineItem>
           ))}
       </Timeline>
+      <AddRecordModal open={open} handleClose={handleClose} />
     </Box>
   );
 }
