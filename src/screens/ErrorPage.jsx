@@ -1,6 +1,7 @@
 import React from "react";
 import { useRouteError } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
+import Logo from "../components/Logo";
 
 function ErrorPage() {
   const error = useRouteError();
@@ -22,6 +23,7 @@ function ErrorPage() {
       <Typography variant="body2">
         <i>{error.statusText || error.message}</i>
       </Typography>
+      <Logo />
     </Box>
   );
 }
