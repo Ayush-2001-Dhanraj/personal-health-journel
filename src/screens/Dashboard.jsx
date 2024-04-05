@@ -13,7 +13,7 @@ import {
 } from "@mui/lab";
 
 import Record from "../components/Record";
-import AddRecordModal from "../components/AddRecordModal";
+import AddRecordModal from "../components/AddRecord";
 
 function Dashboard() {
   const { records } = useSelector((state) => state.global);
