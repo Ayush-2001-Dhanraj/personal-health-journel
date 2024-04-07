@@ -8,12 +8,20 @@ import Dashboard from "./screens/Dashboard";
 import Profile from "./screens/Profile";
 import Auth from "./screens/Auth";
 import store from "./store";
+import { ClerkProvider } from "@clerk/clerk-react";
 import "./index.css";
+import ProtectedComp from "./utils/ProtectedComp";
+
+const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: (
+      <ProtectedComp>
+        <Root />
+      </ProtectedComp>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {
@@ -36,8 +44,10 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <ClerkProvider publishableKey={clerkPubKey}>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </ClerkProvider>
   </React.StrictMode>
 );

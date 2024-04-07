@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useAuth } from "@clerk/clerk-react";
+import { Navigate } from "react-router-dom";
 
 import { Box, Grid, Typography } from "@mui/material";
 
@@ -9,9 +11,12 @@ import Register from "./Register";
 
 function Auth() {
   const [currentView, setCurrentView] = useState("login");
+  const { isSignedIn } = useAuth();
 
   const handleViewChange = () =>
     setCurrentView((preView) => (preView === "login" ? "register" : "login"));
+
+  if (isSignedIn) return <Navigate to={"/"} />;
 
   return (
     <>

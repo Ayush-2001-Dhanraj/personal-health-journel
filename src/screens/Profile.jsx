@@ -1,8 +1,11 @@
 import React from "react";
 import { Grid, Box, Typography, Button } from "@mui/material";
 import dayjs from "dayjs";
+import { useAuth } from "@clerk/clerk-react";
 
 function Profile() {
+  const { signOut } = useAuth();
+
   return (
     <Grid container spacing={2} mt={2}>
       <Grid
@@ -32,7 +35,12 @@ function Profile() {
         <Typography variant="subtitle2" mb={1}>
           ayushdhanraj.work@gmail.com
         </Typography>
-        <Button color="primary" variant="contained" size="small">
+        <Button
+          color="primary"
+          variant="contained"
+          size="small"
+          onClick={signOut}
+        >
           Logout
         </Button>
       </Grid>
