@@ -2,9 +2,9 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 
 const userService = {
-  getUser: async (token) => {
+  getUser: async (token, email) => {
     try {
-      const response = await axios.get(`${BASE_URL}/groups`, {
+      const response = await axios.get(`${BASE_URL}/user/${email}`, {
         headers: {
           "Content-type": "application/json",
           Authorization: `Bearer ${token}`,
