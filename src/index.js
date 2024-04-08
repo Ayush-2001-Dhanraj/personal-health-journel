@@ -8,7 +8,10 @@ import Dashboard from "./screens/Dashboard";
 import Profile from "./screens/Profile";
 import Auth from "./screens/Auth";
 import store from "./store";
-import { ClerkProvider } from "@clerk/clerk-react";
+import {
+  ClerkProvider,
+  AuthenticateWithRedirectCallback,
+} from "@clerk/clerk-react";
 import "./index.css";
 import ProtectedComp from "./utils/ProtectedComp";
 
@@ -37,6 +40,11 @@ const router = createBrowserRouter([
   {
     path: "/auth",
     element: <Auth />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/sso-callback",
+    element: <AuthenticateWithRedirectCallback />,
     errorElement: <ErrorPage />,
   },
 ]);
