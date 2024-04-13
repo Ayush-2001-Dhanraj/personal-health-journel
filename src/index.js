@@ -7,7 +7,7 @@ import ErrorPage from "./screens/ErrorPage";
 import Dashboard from "./screens/Dashboard";
 import Profile from "./screens/Profile";
 import Auth from "./screens/Auth";
-import store from "./store";
+import store from "./redux/store";
 import {
   ClerkProvider,
   AuthenticateWithRedirectCallback,
