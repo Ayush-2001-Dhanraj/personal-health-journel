@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Fab, Box } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -15,9 +15,12 @@ import {
 import Entry from "../components/Entry";
 import AddEntryModal from "../components/AddEntry";
 import ViewEntryModel from "../components/ViewEntry";
+import { resetSelectedEntry, setSelectedEntry } from "../redux/entriesSlice";
 
 function Dashboard() {
   const { entries } = useSelector((state) => state.entries);
+
+  const dispatch = useDispatch();
 
   const [isAddOpen, setIsAddOpen] = useState(false);
   const handleAddOpen = () => setIsAddOpen(true);
@@ -25,10 +28,14 @@ function Dashboard() {
 
   const [isViewOpen, setIsViewOpen] = useState(false);
   const handleViewOpen = () => setIsViewOpen(true);
-  const handleViewClose = () => setIsViewOpen(false);
+  const handleViewClose = () => {
+    dispatch(resetSelectedEntry());
+    setIsViewOpen(false);
+  };
 
   const handleEntryClick = (r) => {
     console.log("sdk Entry clicked", r);
+    dispatch(setSelectedEntry(r._id));
     handleViewOpen();
   };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Typography, Box, IconButton, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -7,8 +7,13 @@ import ModalWrapper from "../ModalWrapper";
 import One from "../AddEntry/One";
 import Two from "../AddEntry/Two";
 import Three from "../AddEntry/Three";
+import { useSelector } from "react-redux";
 
 function ViewEntryModel({ open, handleClose }) {
+  const [entry, setEntry] = useState({});
+
+  const { selectedEntry } = useSelector((state) => state.entries);
+
   return (
     <ModalWrapper open={open}>
       <Typography

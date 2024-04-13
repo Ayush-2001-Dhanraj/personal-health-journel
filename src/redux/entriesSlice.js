@@ -12,9 +12,16 @@ const entriesSlice = createSlice({
     refreshEntries(state, action) {
       state.entries = action.payload;
     },
+    setSelectedEntry(state, action) {
+      state.selectedEntry = action.payload;
+    },
+    resetSelectedEntry(state, action) {
+      state.selectedEntry = null;
+    },
   },
 });
 
-export const { refreshEntries } = entriesSlice.actions;
+export const { refreshEntries, setSelectedEntry, resetSelectedEntry } =
+  entriesSlice.actions;
 
 export default entriesSlice.reducer;
