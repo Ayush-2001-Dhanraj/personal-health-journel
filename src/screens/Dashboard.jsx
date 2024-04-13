@@ -17,7 +17,7 @@ import AddEntryModal from "../components/AddEntry";
 import ViewEntryModel from "../components/ViewEntry";
 
 function Dashboard() {
-  const { entries } = useSelector((state) => state.global);
+  const { entries } = useSelector((state) => state.entries);
 
   const [isAddOpen, setIsAddOpen] = useState(false);
   const handleAddOpen = () => setIsAddOpen(true);

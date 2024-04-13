@@ -9,7 +9,8 @@ import userService from "../services/userService";
 import entriesService from "../services/entriesService";
 import useToken from "../hooks/useToken";
 import { useUser } from "@clerk/clerk-react";
-import { setUser, refreshEntries } from "../redux/globalSlice";
+import { setUser } from "../redux/userSlice";
+import { refreshEntries } from "../redux/entriesSlice";
 
 export default function Root() {
   const { theme } = useSelector((state) => state.global);
@@ -17,7 +18,7 @@ export default function Root() {
   const { user: clerkUser } = useUser();
 
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.global);
+  const { user } = useSelector((state) => state.user);
 
   const retrieveUserData = async () => {
     const res = await userService.getUser(

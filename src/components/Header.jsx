@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 function Header() {
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.global);
+  const { user } = useSelector((state) => state.user);
 
   const handleClickUserName = () => {
     navigate("/profile");

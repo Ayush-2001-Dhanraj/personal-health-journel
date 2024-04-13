@@ -1,10 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  theme: "light",
-  entries: [],
-  user: {},
-};
+const initialState = { theme: "light" };
 
 const globalSlice = createSlice({
   name: "global",
@@ -13,14 +9,8 @@ const globalSlice = createSlice({
     toggleTheme(state) {
       state.theme = state.theme === "light" ? "dark" : "light";
     },
-    setUser(state, action) {
-      state.user = action.payload;
-    },
-    refreshEntries(state, action) {
-      state.entries = action.payload;
-    },
   },
 });
 
-export const { toggleTheme, setUser, refreshEntries } = globalSlice.actions;
+export const { toggleTheme } = globalSlice.actions;
 export default globalSlice.reducer;

@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 function Profile() {
   const { signOut } = useAuth();
-  const { user } = useSelector((state) => state.global);
+  const { user } = useSelector((state) => state.user);
 
   return (
     <Grid container spacing={2} mt={2}>
