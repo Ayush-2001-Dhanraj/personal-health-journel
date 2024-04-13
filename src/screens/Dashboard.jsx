@@ -12,12 +12,12 @@ import {
   TimelineDot,
 } from "@mui/lab";
 
-import Record from "../components/Record";
-import AddRecordModal from "../components/AddRecord";
-import ViewRecordModel from "../components/ViewRecord";
+import Entry from "../components/Entry";
+import AddEntryModal from "../components/AddEntry";
+import ViewEntryModel from "../components/ViewEntry";
 
 function Dashboard() {
-  const { records } = useSelector((state) => state.global);
+  const { entries } = useSelector((state) => state.global);
 
   const [isAddOpen, setIsAddOpen] = useState(false);
   const handleAddOpen = () => setIsAddOpen(true);
@@ -27,8 +27,8 @@ function Dashboard() {
   const handleViewOpen = () => setIsViewOpen(true);
   const handleViewClose = () => setIsViewOpen(false);
 
-  const handleRecordClick = (r) => {
-    console.log("sdk Record clicked", r);
+  const handleEntryClick = (r) => {
+    console.log("sdk Entry clicked", r);
     handleViewOpen();
   };
 
@@ -44,21 +44,21 @@ function Dashboard() {
       </Box>
       {/* Timeline */}
       <Timeline position="alternate">
-        {records &&
-          records.map((r) => (
-            <TimelineItem key={r.id}>
+        {entries &&
+          entries.map((r) => (
+            <TimelineItem key={r._id}>
               <TimelineSeparator>
                 <TimelineDot color="primary" />
                 <TimelineConnector />
               </TimelineSeparator>
               <TimelineContent>
-                <Record r={r} onClick={handleRecordClick} />
+                <Entry r={r} onClick={handleEntryClick} />
               </TimelineContent>
             </TimelineItem>
           ))}
       </Timeline>
-      <AddRecordModal open={isAddOpen} handleClose={handleAddClose} />
-      <ViewRecordModel open={isViewOpen} handleClose={handleViewClose} />
+      <AddEntryModal open={isAddOpen} handleClose={handleAddClose} />
+      <ViewEntryModel open={isViewOpen} handleClose={handleViewClose} />
     </Box>
   );
 }

@@ -2,9 +2,9 @@ import React from "react";
 
 import { Box, Typography } from "@mui/material";
 
-import styles from "./Record.module.css";
+import styles from "./Entry.module.css";
 
-function Record({ r, onClick }) {
+function Entry({ r, onClick }) {
   return (
     <Box className={styles.container} p={1} onClick={() => onClick(r)}>
       <Typography variant="caption">{r.testDate}</Typography>
@@ -20,4 +20,4 @@ function Record({ r, onClick }) {
   );
 }
 
-export default Record;
+export default Entry;

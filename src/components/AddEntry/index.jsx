@@ -33,7 +33,7 @@ function StepContent({ activeStep }) {
   }
 }
 
-export default function AddRecordModal({ open, handleClose }) {
+export default function AddEntryModal({ open, handleClose }) {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
@@ -64,7 +64,7 @@ export default function AddRecordModal({ open, handleClose }) {
         mb={2}
         sx={{ position: "relative" }}
       >
-        Add Record
+        Add Entry
         <IconButton
           size="small"
           color="primary"

@@ -4,9 +4,11 @@ import { useNavigate } from "react-router-dom";
 
 import Logo from "./Logo";
 import Clock from "./Clock";
+import { useSelector } from "react-redux";
 
 function Header() {
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.global);
 
   const handleClickUserName = () => {
     navigate("/profile");
@@ -26,7 +28,7 @@ function Header() {
       </Box>
       <Box onClick={handleClickUserName} sx={{ cursor: "pointer" }}>
         <Clock />
-        <Typography variant="caption">Ayush Dhanraj</Typography>
+        <Typography variant="caption">{user?.name}</Typography>
       </Box>
     </Box>
   );

@@ -4,11 +4,11 @@ import { Typography, Box, IconButton, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 import ModalWrapper from "../ModalWrapper";
-import One from "../AddRecord/One";
-import Two from "../AddRecord/Two";
-import Three from "../AddRecord/Three";
+import One from "../AddEntry/One";
+import Two from "../AddEntry/Two";
+import Three from "../AddEntry/Three";
 
-function ViewRecordModel({ open, handleClose }) {
+function ViewEntryModel({ open, handleClose }) {
   return (
     <ModalWrapper open={open}>
       <Typography
@@ -17,7 +17,7 @@ function ViewRecordModel({ open, handleClose }) {
         mb={2}
         sx={{ position: "relative" }}
       >
-        View Record
+        View Entry
         <IconButton
           size="small"
           color="primary"
@@ -44,4 +44,4 @@ function ViewRecordModel({ open, handleClose }) {
   );
 }
 
-export default ViewRecordModel;
+export default ViewEntryModel;

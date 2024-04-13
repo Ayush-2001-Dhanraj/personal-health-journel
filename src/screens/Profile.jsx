@@ -2,9 +2,11 @@ import React from "react";
 import { Grid, Box, Typography, Button } from "@mui/material";
 import dayjs from "dayjs";
 import { useAuth } from "@clerk/clerk-react";
+import { useSelector } from "react-redux";
 
 function Profile() {
   const { signOut } = useAuth();
+  const { user } = useSelector((state) => state.global);
 
   return (
     <Grid container spacing={2} mt={2}>
@@ -15,6 +17,9 @@ function Profile() {
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
         <Box
+          component="img"
+          alt="Logo"
+          src={user?.profileImg}
           sx={{
             width: { xs: 200, sm: 400 },
             height: { xs: 200, sm: 400 },
@@ -23,17 +28,17 @@ function Profile() {
         ></Box>
       </Grid>
       <Grid item xs={12} sm={6}>
-        <Typography variant="h6">Ayush Dhanraj</Typography>
+        <Typography variant="h6">{user?.name}</Typography>
         <Box>
           <Typography variant="caption">
-            Joined: {dayjs("2022-04-17").format("DD/MM/YYYY")}
+            Joined: {dayjs(user?.createdAt).format("DD/MM/YYYY")}
           </Typography>
           <Typography variant="caption" ml={1}>
-            Last Entry on: {dayjs("2022-04-17").format("DD/MM/YYYY")}
+            Last Entry on: {dayjs(user?.lastUpdate).format("DD/MM/YYYY")}
           </Typography>
         </Box>
         <Typography variant="subtitle2" mb={1}>
-          ayushdhanraj.work@gmail.com
+          {user?.email}
         </Typography>
         <Button
           color="primary"
