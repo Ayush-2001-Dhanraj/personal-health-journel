@@ -2,23 +2,32 @@ import React from "react";
 import { TextField, MenuItem } from "@mui/material";
 import { testTypes } from "../../utils/constants";
 
-function One() {
+function One({ type, onChangeType, disabled }) {
+  const handleChange = (e) => {
+    onChangeType?.();
+  };
+
   return (
-    <TextField
-      select
-      label="Type of Entry"
-      defaultValue="General"
-      helperText="Please select type of Entry"
-      variant="standard"
-      required
-      fullWidth
-    >
-      {testTypes.map((option) => (
-        <MenuItem key={option.value} value={option.value}>
-          {option.label}
-        </MenuItem>
-      ))}
-    </TextField>
+    <>
+      <TextField
+        select
+        label="Type of Entry"
+        defaultValue="GEN"
+        value={type || "GEN"}
+        disabled={disabled}
+        onChange={handleChange}
+        helperText={disabled ? "" : "Please select type of Entry"}
+        variant="standard"
+        required={!disabled}
+        fullWidth
+      >
+        {testTypes.map((option) => (
+          <MenuItem key={option.value} value={option.value}>
+            {option.label}
+          </MenuItem>
+        ))}
+      </TextField>
+    </>
   );
 }
 

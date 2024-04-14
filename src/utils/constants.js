@@ -1,10 +1,10 @@
 export const testTypes = [
   {
-    value: "Result",
+    value: "RES",
     label: "Test Result",
   },
   {
-    value: "General",
+    value: "GEN",
     label: "General Entry",
   },
 ];

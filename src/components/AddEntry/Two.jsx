@@ -1,22 +1,30 @@
 import React from "react";
-import { TextField } from "@mui/material";
+import { TextField, Box } from "@mui/material";
 
-function Two() {
+function Two({ title, onChangeTitle, subtitle, onChangeSubtitle, disabled }) {
   return (
     <>
-      <TextField
-        label="Title"
-        helperText="Enter Title of the Entry"
-        variant="standard"
-        required
-        fullWidth
-      />
-      <TextField
-        label="Subtitle"
-        helperText="Enter Title of the Entry"
-        variant="standard"
-        fullWidth
-      />
+      <Box mt={1}>
+        <TextField
+          label="Title"
+          value={title || "--"}
+          disabled={disabled}
+          helperText={disabled ? "" : "Enter Title of the Entry"}
+          variant="standard"
+          required={!disabled}
+          fullWidth
+        />
+      </Box>
+      <Box mt={1}>
+        <TextField
+          label="Subtitle"
+          value={subtitle || "--"}
+          disabled={disabled}
+          helperText={disabled ? "" : "Enter Title of the Entry"}
+          variant="standard"
+          fullWidth
+        />
+      </Box>
     </>
   );
 }
