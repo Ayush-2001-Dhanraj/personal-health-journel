@@ -19,6 +19,9 @@ export default function Root() {
 
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
+  const { isAddModelOpen, isViewModelOpen } = useSelector(
+    (state) => state.global
+  );
 
   const retrieveUserData = async () => {
     const res = await userService.getUser(
@@ -36,7 +39,7 @@ export default function Root() {
   useEffect(() => {
     if (Object.keys(user).length && token) retrieveAllRecords();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, token]);
+  }, [user, token, isAddModelOpen, isViewModelOpen]);
 
   useEffect(() => {
     if (token && clerkUser?.primaryEmailAddress?.emailAddress)

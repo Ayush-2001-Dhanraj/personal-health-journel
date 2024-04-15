@@ -3,11 +3,14 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 
 import styles from "./Entry.module.css";
+import dayjs from "dayjs";
 
 function Entry({ r, onClick }) {
   return (
     <Box className={styles.container} p={1} onClick={() => onClick(r)}>
-      <Typography variant="caption">{r.testDate}</Typography>
+      <Typography variant="caption">
+        {dayjs(r.eventDate).format("LL")}
+      </Typography>
       <Typography variant="h6">{r.title}</Typography>
       <Typography variant="subtitle2">{r.subtitle}</Typography>
       <Typography variant="body2">

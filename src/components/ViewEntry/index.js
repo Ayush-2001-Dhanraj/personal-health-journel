@@ -42,7 +42,10 @@ function ViewEntryModel({ open, handleClose }) {
     }
   };
 
-  const handleDelete = async () => {};
+  const handleDelete = async () => {
+    const res = await entriesService.deleteEntry(token, selectedEntry);
+    if (res && !res.err) handleClose();
+  };
 
   useEffect(() => {
     if (selectedEntry && token) retrieveSelectedEntry();

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Fab, Box } from "@mui/material";
@@ -16,21 +16,28 @@ import Entry from "../components/Entry";
 import AddEntryModal from "../components/AddEntry";
 import ViewEntryModel from "../components/ViewEntry";
 import { resetSelectedEntry, setSelectedEntry } from "../redux/entriesSlice";
+import {
+  closeAddModel,
+  closeViewModel,
+  openAddModel,
+  openViewModel,
+} from "../redux/globalSlice";
 
 function Dashboard() {
   const { entries } = useSelector((state) => state.entries);
 
   const dispatch = useDispatch();
 
-  const [isAddOpen, setIsAddOpen] = useState(false);
-  const handleAddOpen = () => setIsAddOpen(true);
-  const handleAddClose = () => setIsAddOpen(false);
+  const { isAddModelOpen, isViewModelOpen } = useSelector(
+    (state) => state.global
+  );
+  const handleAddOpen = () => dispatch(openAddModel());
+  const handleAddClose = () => dispatch(closeAddModel());
 
-  const [isViewOpen, setIsViewOpen] = useState(false);
-  const handleViewOpen = () => setIsViewOpen(true);
+  const handleViewOpen = () => dispatch(openViewModel());
   const handleViewClose = () => {
     dispatch(resetSelectedEntry());
-    setIsViewOpen(false);
+    dispatch(closeViewModel());
   };
 
   const handleEntryClick = (r) => {
@@ -63,11 +70,11 @@ function Dashboard() {
             </TimelineItem>
           ))}
       </Timeline>
-      {isAddOpen && (
-        <AddEntryModal open={isAddOpen} handleClose={handleAddClose} />
+      {isAddModelOpen && (
+        <AddEntryModal open={isAddModelOpen} handleClose={handleAddClose} />
       )}
-      {isViewOpen && (
-        <ViewEntryModel open={isViewOpen} handleClose={handleViewClose} />
+      {isViewModelOpen && (
+        <ViewEntryModel open={isViewModelOpen} handleClose={handleViewClose} />
       )}
     </Box>
   );

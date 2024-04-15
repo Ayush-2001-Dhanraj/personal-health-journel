@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BASE_URL } from "./constants";
 
-const apiRequest = async (method, url, token, data = null) => {
+const apiRequest = async (method, url, token, data = {}) => {
   try {
     const config = {
       method: method,
