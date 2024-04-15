@@ -41,9 +41,9 @@ function ViewEntryModel({ open, handleClose }) {
   };
 
   useEffect(() => {
-    if (selectedEntry) retrieveSelectedEntry();
+    if (selectedEntry && token) retrieveSelectedEntry();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedEntry, isEdit]);
+  }, [selectedEntry, isEdit, token]);
 
   return (
     <ModalWrapper open={open}>

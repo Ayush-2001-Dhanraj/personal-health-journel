@@ -63,8 +63,12 @@ function Dashboard() {
             </TimelineItem>
           ))}
       </Timeline>
-      <AddEntryModal open={isAddOpen} handleClose={handleAddClose} />
-      <ViewEntryModel open={isViewOpen} handleClose={handleViewClose} />
+      {isAddOpen && (
+        <AddEntryModal open={isAddOpen} handleClose={handleAddClose} />
+      )}
+      {isViewOpen && (
+        <ViewEntryModel open={isViewOpen} handleClose={handleViewClose} />
+      )}
     </Box>
   );
 }
