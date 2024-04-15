@@ -4,7 +4,7 @@ import { testTypes } from "../../utils/constants";
 
 function One({ type, onChangeType, disabled, compact }) {
   const handleChange = (e) => {
-    onChangeType?.();
+    onChangeType?.(e.target.value);
   };
 
   return (

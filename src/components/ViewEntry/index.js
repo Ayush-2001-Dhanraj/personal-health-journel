@@ -14,7 +14,7 @@ import useToken from "../../hooks/useToken";
 
 function ViewEntryModel({ open, handleClose }) {
   const [entry, setEntry] = useState({});
-  const [isEdit, setIsEdit] = useState(true);
+  const [isEdit, setIsEdit] = useState(false);
 
   const [token] = useToken();
 
@@ -27,10 +27,23 @@ function ViewEntryModel({ open, handleClose }) {
 
   const toggleEditMode = () => setIsEdit((preV) => !preV);
 
+  const handleChangeEntry = (name, value) => {
+    setEntry((preV) => {
+      return { ...preV, [name]: value };
+    });
+  };
+
+  const handleConfirm = async () => {
+    const res = await entriesService.updateEntry(token, selectedEntry, entry);
+    if (res && !res.err) {
+      setIsEdit(false);
+    }
+  };
+
   useEffect(() => {
     if (selectedEntry) retrieveSelectedEntry();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedEntry]);
+  }, [selectedEntry, isEdit]);
 
   return (
     <ModalWrapper open={open}>
@@ -61,37 +74,53 @@ function ViewEntryModel({ open, handleClose }) {
       >
         <One
           type={entry?.type}
-          disabled={isEdit}
-          onChangeType={() => {}}
+          disabled={!isEdit}
+          onChangeType={(value) => {
+            handleChangeEntry("type", value);
+          }}
           compact
         />
         <Four
           eventDate={entry?.eventDate}
-          onChangeEventDate={() => {}}
-          disabled={isEdit}
+          onChangeEventDate={(value) => {
+            handleChangeEntry("eventDate", value);
+          }}
+          disabled={!isEdit}
           compact
         />
       </Box>
+
       <Two
         title={entry?.title}
-        onChangeTitle={() => {}}
+        onChangeTitle={(value) => {
+          handleChangeEntry("title", value);
+        }}
         subtitle={entry?.subtitle}
-        onChangeSubtitle={() => {}}
-        disabled={isEdit}
+        onChangeSubtitle={(value) => {
+          handleChangeEntry("subtitle", value);
+        }}
+        disabled={!isEdit}
         compact
       />
+
       <Three
         description={entry?.description}
-        onChangeDescription={() => {}}
-        disabled={isEdit}
+        onChangeDescription={(value) => {
+          handleChangeEntry("description", value);
+        }}
+        disabled={!isEdit}
       />
 
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Button variant="outlined" size="small" onClick={toggleEditMode}>
-          Edit
+          {isEdit ? "Cancel" : "Edit"}
         </Button>
-        <Button variant="contained" size="small" onClick={handleClose}>
-          Close
+        <Button
+          variant="contained"
+          size="small"
+          onClick={isEdit ? handleConfirm : handleClose}
+        >
+          {isEdit ? "Confirm" : "Close"}
         </Button>
       </Box>
     </ModalWrapper>

@@ -34,7 +34,6 @@ function Dashboard() {
   };
 
   const handleEntryClick = (r) => {
-    console.log("sdk Entry clicked", r);
     dispatch(setSelectedEntry(r._id));
     handleViewOpen();
   };

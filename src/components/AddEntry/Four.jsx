@@ -8,8 +8,7 @@ import { Box } from "@mui/material";
 
 function Four({ eventDate, onChangeEventDate, disabled, compact }) {
   const handleEventDateChange = (newDate) => {
-    // console.log(dayjs(newDate));
-    onChangeEventDate?.();
+    onChangeEventDate?.(new Date(newDate).toISOString());
   };
 
   return (
@@ -19,15 +18,16 @@ function Four({ eventDate, onChangeEventDate, disabled, compact }) {
           <DateField
             disabled={disabled}
             value={dayjs(eventDate)}
-            defaultValue={dayjs("2022-04-17")}
+            // defaultValue={dayjs("2022-04-17")}
             label="Event Date"
             fullWidth
+            onChange={handleEventDateChange}
             variant="standard"
           />
         ) : (
           <DateCalendar
             disabled={disabled}
-            defaultValue={dayjs("2022-04-17")}
+            // defaultValue={dayjs("2022-04-17")}
             value={dayjs(eventDate)}
             onChange={handleEventDateChange}
             sx={{ width: "100%" }}

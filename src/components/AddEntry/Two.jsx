@@ -9,6 +9,14 @@ function Two({
   disabled,
   compact,
 }) {
+  const handleTitleChange = (e) => {
+    onChangeTitle?.(e.target.value);
+  };
+
+  const handleSubtitleChange = (e) => {
+    onChangeSubtitle?.(e.target.value);
+  };
+
   return (
     <>
       <Box mt={1}>
@@ -19,6 +27,7 @@ function Two({
           helperText={disabled || compact ? "" : "Enter Title of the Entry"}
           variant="standard"
           required={!disabled}
+          onChange={handleTitleChange}
           fullWidth
         />
       </Box>
@@ -29,6 +38,7 @@ function Two({
           disabled={disabled}
           helperText={disabled || compact ? "" : "Enter Title of the Entry"}
           variant="standard"
+          onChange={handleSubtitleChange}
           fullWidth
         />
       </Box>

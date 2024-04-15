@@ -5,8 +5,6 @@ import { Navigate } from "react-router-dom";
 function ProtectedComp({ children }) {
   const { isSignedIn } = useAuth();
 
-  console.log();
-
   return <>{isSignedIn ? children : <Navigate to={"/auth"} />}</>;
 }
 
