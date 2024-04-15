@@ -15,19 +15,45 @@ import Two from "./Two";
 import Three from "./Three";
 import Four from "./Four";
 import ModalWrapper from "../ModalWrapper";
+import entriesService from "../../services/entriesService";
+import useToken from "../../hooks/useToken";
 
 const steps = ["Type", "Title & Subtitle", "Description & Files", "Date"];
 
-function StepContent({ activeStep }) {
+function StepContent({ activeStep, entry, handleChangeEntry }) {
   switch (activeStep) {
     case 0:
-      return <One />;
+      return (
+        <One
+          type={entry?.type}
+          onChangeType={(value) => handleChangeEntry("type", value)}
+        />
+      );
     case 1:
-      return <Two />;
+      return (
+        <Two
+          title={entry?.title}
+          onChangeTitle={(value) => handleChangeEntry("title", value)}
+          subtitle={entry?.subtitle}
+          onChangeSubtitle={(value) => handleChangeEntry("subtitle", value)}
+        />
+      );
     case 2:
-      return <Three />;
+      return (
+        <Three
+          description={entry?.description}
+          onChangeDescription={(value) =>
+            handleChangeEntry("description", value)
+          }
+        />
+      );
     case 3:
-      return <Four />;
+      return (
+        <Four
+          eventDate={entry?.eventDate}
+          onChangeEventDate={(value) => handleChangeEntry("eventDate", value)}
+        />
+      );
     default:
       return null;
   }
@@ -35,6 +61,14 @@ function StepContent({ activeStep }) {
 
 export default function AddEntryModal({ open, handleClose }) {
   const [activeStep, setActiveStep] = useState(0);
+  const [token] = useToken();
+  const [entry, setEntry] = useState({
+    title: "",
+    subtitle: "",
+    type: "GEN",
+    description: "",
+    eventDate: new Date().toISOString(),
+  });
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -44,9 +78,29 @@ export default function AddEntryModal({ open, handleClose }) {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  const handleSubmit = async () => {
+    const res = await entriesService.createEntry(token, entry);
+    if (res && !res.err) {
+      handleNext();
+    }
+  };
+
+  const handleChangeEntry = (name, value) => {
+    setEntry((preV) => {
+      return { ...preV, [name]: value };
+    });
+  };
+
   useEffect(() => {
     setActiveStep(0);
-  }, [open]);
+    setEntry({
+      title: "",
+      subtitle: "",
+      type: "GEN",
+      description: "",
+      eventDate: new Date().toISOString(),
+    });
+  }, [open, token]);
 
   useEffect(() => {
     if (activeStep === steps.length) {
@@ -64,7 +118,7 @@ export default function AddEntryModal({ open, handleClose }) {
         mb={2}
         sx={{ position: "relative" }}
       >
-        Add Entry
+        Add New Entry
         <IconButton
           size="small"
           color="primary"
@@ -91,7 +145,11 @@ export default function AddEntryModal({ open, handleClose }) {
       ) : (
         <>
           <Box mt={4} mb={2}>
-            <StepContent activeStep={activeStep} />
+            <StepContent
+              activeStep={activeStep}
+              entry={entry}
+              handleChangeEntry={handleChangeEntry}
+            />
           </Box>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button
@@ -104,7 +162,11 @@ export default function AddEntryModal({ open, handleClose }) {
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
 
-            <Button onClick={handleNext}>
+            <Button
+              onClick={
+                activeStep === steps.length - 1 ? handleSubmit : handleNext
+              }
+            >
               {activeStep === steps.length - 1 ? "Submit" : "Next"}
             </Button>
           </Box>
