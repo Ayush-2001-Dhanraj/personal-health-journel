@@ -11,6 +11,8 @@ import Four from "../AddEntry/Four";
 import { useSelector } from "react-redux";
 import entriesService from "../../services/entriesService";
 import useToken from "../../hooks/useToken";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 function ViewEntryModel({ open, handleClose }) {
   const [entry, setEntry] = useState({});
@@ -39,6 +41,8 @@ function ViewEntryModel({ open, handleClose }) {
       setIsEdit(false);
     }
   };
+
+  const handleDelete = async () => {};
 
   useEffect(() => {
     if (selectedEntry && token) retrieveSelectedEntry();
@@ -112,9 +116,16 @@ function ViewEntryModel({ open, handleClose }) {
       />
 
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Button variant="outlined" size="small" onClick={toggleEditMode}>
-          {isEdit ? "Cancel" : "Edit"}
-        </Button>
+        <Box>
+          <IconButton color="primary" size="small" onClick={toggleEditMode}>
+            {isEdit ? "Cancel" : <EditIcon />}
+          </IconButton>
+          {!isEdit && (
+            <IconButton color="warning" size="small" onClick={handleDelete}>
+              <DeleteIcon />
+            </IconButton>
+          )}
+        </Box>
         <Button
           variant="contained"
           size="small"
