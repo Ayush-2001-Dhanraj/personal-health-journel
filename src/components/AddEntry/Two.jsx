@@ -1,7 +1,14 @@
 import React from "react";
 import { TextField, Box } from "@mui/material";
 
-function Two({ title, onChangeTitle, subtitle, onChangeSubtitle, disabled }) {
+function Two({
+  title,
+  onChangeTitle,
+  subtitle,
+  onChangeSubtitle,
+  disabled,
+  compact,
+}) {
   return (
     <>
       <Box mt={1}>
@@ -9,7 +16,7 @@ function Two({ title, onChangeTitle, subtitle, onChangeSubtitle, disabled }) {
           label="Title"
           value={title || "--"}
           disabled={disabled}
-          helperText={disabled ? "" : "Enter Title of the Entry"}
+          helperText={disabled || compact ? "" : "Enter Title of the Entry"}
           variant="standard"
           required={!disabled}
           fullWidth
@@ -20,7 +27,7 @@ function Two({ title, onChangeTitle, subtitle, onChangeSubtitle, disabled }) {
           label="Subtitle"
           value={subtitle || "--"}
           disabled={disabled}
-          helperText={disabled ? "" : "Enter Title of the Entry"}
+          helperText={disabled || compact ? "" : "Enter Title of the Entry"}
           variant="standard"
           fullWidth
         />

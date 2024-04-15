@@ -1,11 +1,19 @@
 import React from "react";
-import { TextField } from "@mui/material";
+import { TextField, Box } from "@mui/material";
 
-function Three() {
+function Three({ description, onChangeDescription, disabled }) {
   return (
-    <>
-      <TextField placeholder="Description" multiline rows={4} fullWidth />
-    </>
+    <Box mt={1} mb={1}>
+      <TextField
+        value={description || "-- No Description --"}
+        placeholder="Description"
+        disabled={disabled}
+        multiline
+        rows={4}
+        fullWidth
+        variant="standard"
+      />
+    </Box>
   );
 }
 

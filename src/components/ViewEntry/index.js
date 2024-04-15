@@ -7,6 +7,7 @@ import ModalWrapper from "../ModalWrapper";
 import One from "../AddEntry/One";
 import Two from "../AddEntry/Two";
 import Three from "../AddEntry/Three";
+import Four from "../AddEntry/Four";
 import { useSelector } from "react-redux";
 import entriesService from "../../services/entriesService";
 import useToken from "../../hooks/useToken";
@@ -39,7 +40,7 @@ function ViewEntryModel({ open, handleClose }) {
         mb={2}
         sx={{ position: "relative" }}
       >
-        View Entry
+        Entry Details
         <IconButton
           size="small"
           color="primary"
@@ -50,15 +51,40 @@ function ViewEntryModel({ open, handleClose }) {
         </IconButton>
       </Typography>
 
-      <One type={entry?.type} disabled={isEdit} onChangeType={() => {}} />
+      <Box
+        sx={{
+          display: "flex",
+          gap: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <One
+          type={entry?.type}
+          disabled={isEdit}
+          onChangeType={() => {}}
+          compact
+        />
+        <Four
+          eventDate={entry?.eventDate}
+          onChangeEventDate={() => {}}
+          disabled={isEdit}
+          compact
+        />
+      </Box>
       <Two
         title={entry?.title}
         onChangeTitle={() => {}}
         subtitle={entry?.subtitle}
         onChangeSubtitle={() => {}}
         disabled={isEdit}
+        compact
       />
-      <Three disabled={isEdit} />
+      <Three
+        description={entry?.description}
+        onChangeDescription={() => {}}
+        disabled={isEdit}
+      />
 
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Button variant="outlined" size="small" onClick={toggleEditMode}>
