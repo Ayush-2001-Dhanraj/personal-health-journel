@@ -31,12 +31,14 @@ function Entry({ r, onClick }) {
           ? r.description.substring(0, 150) + "..."
           : r.description}
       </Typography>
+      <Typography variant="caption" sx={{ display: "block" }}>
+        {r.type}
+      </Typography>
       {true && (
-        <IconButton onClick={handleAttachmentClick}>
-          <AttachFileIcon />
+        <IconButton onClick={handleAttachmentClick} size="small">
+          <AttachFileIcon fontSize="2" />
         </IconButton>
       )}
-      <Typography variant="caption">{r.type}</Typography>
     </Box>
   );
 }

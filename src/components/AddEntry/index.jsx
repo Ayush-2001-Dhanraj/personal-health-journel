@@ -17,8 +17,7 @@ import Four from "./Four";
 import ModalWrapper from "../ModalWrapper";
 import entriesService from "../../services/entriesService";
 import useToken from "../../hooks/useToken";
-
-const steps = ["Type", "Title & Subtitle", "Description & Files", "Date"];
+import { addEntrySteps } from "../../utils/constants";
 
 function StepContent({ activeStep, entry, handleChangeEntry }) {
   switch (activeStep) {
@@ -103,7 +102,7 @@ export default function AddEntryModal({ open, handleClose }) {
   }, [open, token]);
 
   useEffect(() => {
-    if (activeStep === steps.length) {
+    if (activeStep === addEntrySteps.length) {
       setTimeout(() => {
         handleClose();
       }, 2000);
@@ -129,7 +128,7 @@ export default function AddEntryModal({ open, handleClose }) {
         </IconButton>
       </Typography>
       <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((label, index) => {
+        {addEntrySteps.map((label, index) => {
           return (
             <Step key={label}>
               <StepLabel>{label}</StepLabel>
@@ -138,9 +137,9 @@ export default function AddEntryModal({ open, handleClose }) {
         })}
       </Stepper>
 
-      {activeStep === steps.length ? (
+      {activeStep === addEntrySteps.length ? (
         <Typography sx={{ mt: 2, mb: 1 }} align="center">
-          All steps completed - you&apos;re finished
+          All Steps completed - entry added successfully
         </Typography>
       ) : (
         <>
@@ -164,10 +163,12 @@ export default function AddEntryModal({ open, handleClose }) {
 
             <Button
               onClick={
-                activeStep === steps.length - 1 ? handleSubmit : handleNext
+                activeStep === addEntrySteps.length - 1
+                  ? handleSubmit
+                  : handleNext
               }
             >
-              {activeStep === steps.length - 1 ? "Submit" : "Next"}
+              {activeStep === addEntrySteps.length - 1 ? "Submit" : "Next"}
             </Button>
           </Box>
         </>
