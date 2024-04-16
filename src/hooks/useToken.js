@@ -4,7 +4,7 @@ import { useAuth } from "@clerk/clerk-react";
 const useToken = () => {
   const [token, setToken] = useState(null);
 
-  const { getToken } = useAuth();
+  const { getToken, isLoaded } = useAuth();
 
   const retrieveUserData = async () => {
     const tk = await getToken();
@@ -14,7 +14,7 @@ const useToken = () => {
   useEffect(() => {
     retrieveUserData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isLoaded]);
 
   return [token];
 };

@@ -18,19 +18,20 @@ import ViewEntryModel from "../components/ViewEntry";
 import { resetSelectedEntry, setSelectedEntry } from "../redux/entriesSlice";
 import {
   closeAddModel,
+  closeAttachmentModel,
   closeViewModel,
   openAddModel,
   openViewModel,
 } from "../redux/globalSlice";
+import AttachmentPreview from "../components/AttachmentPreview";
 
 function Dashboard() {
   const { entries } = useSelector((state) => state.entries);
 
   const dispatch = useDispatch();
 
-  const { isAddModelOpen, isViewModelOpen } = useSelector(
-    (state) => state.global
-  );
+  const { isAddModelOpen, isViewModelOpen, isAttachmentModelOpen } =
+    useSelector((state) => state.global);
   const handleAddOpen = () => dispatch(openAddModel());
   const handleAddClose = () => dispatch(closeAddModel());
 
@@ -39,6 +40,8 @@ function Dashboard() {
     dispatch(resetSelectedEntry());
     dispatch(closeViewModel());
   };
+
+  const handleAttachmentClose = () => dispatch(closeAttachmentModel());
 
   const handleEntryClick = (r) => {
     dispatch(setSelectedEntry(r._id));
@@ -70,11 +73,18 @@ function Dashboard() {
             </TimelineItem>
           ))}
       </Timeline>
+      {/* models */}
       {isAddModelOpen && (
         <AddEntryModal open={isAddModelOpen} handleClose={handleAddClose} />
       )}
       {isViewModelOpen && (
         <ViewEntryModel open={isViewModelOpen} handleClose={handleViewClose} />
+      )}
+      {isAttachmentModelOpen && (
+        <AttachmentPreview
+          open={isAttachmentModelOpen}
+          handleClose={handleAttachmentClose}
+        />
       )}
     </Box>
   );

@@ -14,7 +14,7 @@ const modalStyle = {
   p: 2,
 };
 
-function ModalWrapper({ open, children }) {
+function ModalWrapper({ open, styles, children }) {
   return (
     <>
       <Modal
@@ -22,7 +22,7 @@ function ModalWrapper({ open, children }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={modalStyle}>{children}</Box>
+        <Box sx={{ ...modalStyle, ...styles }}>{children}</Box>
       </Modal>
     </>
   );

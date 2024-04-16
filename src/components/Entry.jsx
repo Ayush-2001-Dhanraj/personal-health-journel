@@ -1,11 +1,24 @@
 import React from "react";
 
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 
 import styles from "./Entry.module.css";
 import dayjs from "dayjs";
+import { useDispatch } from "react-redux";
+import { setSelectedEntry } from "../redux/entriesSlice";
+import { openAttachmentModel } from "../redux/globalSlice";
 
 function Entry({ r, onClick }) {
+  const dispatch = useDispatch();
+
+  const handleAttachmentClick = (e) => {
+    e.stopPropagation();
+    dispatch(setSelectedEntry(r._id));
+    dispatch(openAttachmentModel());
+    console.log("handleAttachmentClick clicked");
+  };
+
   return (
     <Box className={styles.container} p={1} onClick={() => onClick(r)}>
       <Typography variant="caption">
@@ -18,6 +31,11 @@ function Entry({ r, onClick }) {
           ? r.description.substring(0, 150) + "..."
           : r.description}
       </Typography>
+      {true && (
+        <IconButton onClick={handleAttachmentClick}>
+          <AttachFileIcon />
+        </IconButton>
+      )}
       <Typography variant="caption">{r.type}</Typography>
     </Box>
   );

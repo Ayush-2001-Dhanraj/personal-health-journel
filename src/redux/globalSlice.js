@@ -4,6 +4,7 @@ const initialState = {
   theme: "light",
   isAddModelOpen: false,
   isViewModelOpen: false,
+  isAttachmentModelOpen: false,
 };
 
 const globalSlice = createSlice({
@@ -25,6 +26,12 @@ const globalSlice = createSlice({
     openViewModel(state) {
       state.isViewModelOpen = true;
     },
+    closeAttachmentModel(state) {
+      state.isAttachmentModelOpen = false;
+    },
+    openAttachmentModel(state) {
+      state.isAttachmentModelOpen = true;
+    },
   },
 });
 
@@ -34,5 +41,7 @@ export const {
   openAddModel,
   closeViewModel,
   openViewModel,
+  closeAttachmentModel,
+  openAttachmentModel,
 } = globalSlice.actions;
 export default globalSlice.reducer;
