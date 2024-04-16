@@ -37,15 +37,15 @@ export default function Root() {
   };
 
   useEffect(() => {
-    if (Object.keys(user).length && token) retrieveAllRecords();
+    if (token && !isAddModelOpen && !isViewModelOpen) retrieveAllRecords();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, token, isAddModelOpen, isViewModelOpen]);
+  }, [token, isAddModelOpen, isViewModelOpen]);
 
   useEffect(() => {
     if (token && clerkUser?.primaryEmailAddress?.emailAddress)
       retrieveUserData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, clerkUser]);
+  }, [token]);
 
   return (
     <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>

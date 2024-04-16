@@ -8,11 +8,12 @@ import One from "../AddEntry/One";
 import Two from "../AddEntry/Two";
 import Three from "../AddEntry/Three";
 import Four from "../AddEntry/Four";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import entriesService from "../../services/entriesService";
 import useToken from "../../hooks/useToken";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { openAttachmentModel } from "../../redux/globalSlice";
 
 function ViewEntryModel({ open, handleClose }) {
   const [entry, setEntry] = useState({});
@@ -21,6 +22,7 @@ function ViewEntryModel({ open, handleClose }) {
   const [token] = useToken();
 
   const { selectedEntry } = useSelector((state) => state.entries);
+  const dispatch = useDispatch();
 
   const retrieveSelectedEntry = async () => {
     const res = await entriesService.getEntry(token, selectedEntry);
@@ -45,6 +47,11 @@ function ViewEntryModel({ open, handleClose }) {
   const handleDelete = async () => {
     const res = await entriesService.deleteEntry(token, selectedEntry);
     if (res && !res.err) handleClose();
+  };
+
+  const handleAttachmentClick = () => {
+    dispatch(openAttachmentModel());
+    console.log("Attachments clicked");
   };
 
   useEffect(() => {
@@ -117,6 +124,13 @@ function ViewEntryModel({ open, handleClose }) {
         }}
         disabled={!isEdit}
       />
+
+      {/* entry?.files.map((file) => return ...) */}
+      <Box mb={1} mt={1}>
+        <Button variant="outlined" fullWidth onClick={handleAttachmentClick}>
+          File Name | (Image - PDF)
+        </Button>
+      </Box>
 
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box>
