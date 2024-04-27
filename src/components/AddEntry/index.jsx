@@ -45,6 +45,8 @@ function StepContent({ activeStep, entry, handleChangeEntry }) {
           onChangeDescription={(value) =>
             handleChangeEntry("description", value)
           }
+          attachment={entry?.attachment}
+          onChangeAttachment={(value) => handleChangeEntry("attachment", value)}
         />
       );
     case 3:
@@ -70,6 +72,7 @@ export default function AddEntryModal({ open, handleClose }) {
     type: "GEN",
     description: "",
     eventDate: new Date().toISOString(),
+    attachment: "",
   });
 
   const handleNext = () => {
@@ -81,7 +84,13 @@ export default function AddEntryModal({ open, handleClose }) {
   };
 
   const handleSubmit = async () => {
-    const res = await entriesService.createEntry(token, user?._id, entry);
+    const data = new FormData();
+
+    for (let key in entry) {
+      data.append(key, entry[key]);
+    }
+
+    const res = await entriesService.createEntry(token, user?._id, data);
     if (res && !res.err) {
       handleNext();
     }
@@ -111,6 +120,10 @@ export default function AddEntryModal({ open, handleClose }) {
       }, 2000);
     }
   }, [activeStep, handleClose]);
+
+  useEffect(() => {
+    console.log(entry);
+  }, [entry]);
 
   return (
     <ModalWrapper open={open}>

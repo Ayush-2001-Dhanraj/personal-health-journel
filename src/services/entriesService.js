@@ -5,7 +5,13 @@ const entriesService = {
     return await apiRequest("GET", `/entries/${id}`, token);
   },
   createEntry: async (token, id, data) => {
-    return await apiRequest("POST", `/entries/${id}`, token, data);
+    return await apiRequest(
+      "POST",
+      `/entries/${id}`,
+      token,
+      data,
+      "multipart/form-data"
+    );
   },
   getEntry: async (token, id) => {
     return await apiRequest("GET", `/entries/entry/${id}`, token);
