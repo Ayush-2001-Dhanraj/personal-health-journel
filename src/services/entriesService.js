@@ -1,20 +1,20 @@
 import apiRequest from "../utils/apiRequest";
 
 const entriesService = {
-  getAllEntries: async (token) => {
-    return await apiRequest("GET", "/entries", token);
-  },
-  createEntry: async (token, data) => {
-    return await apiRequest("POST", "/entries", token, data);
-  },
-  getEntry: async (token, id) => {
+  getAllEntries: async (token, id) => {
     return await apiRequest("GET", `/entries/${id}`, token);
   },
+  createEntry: async (token, id, data) => {
+    return await apiRequest("POST", `/entries/${id}`, token, data);
+  },
+  getEntry: async (token, id) => {
+    return await apiRequest("GET", `/entries/entry/${id}`, token);
+  },
   deleteEntry: async (token, id) => {
-    return await apiRequest("DELETE", `/entries/${id}`, token);
+    return await apiRequest("DELETE", `/entries/entry/${id}`, token);
   },
   updateEntry: async (token, id, data) => {
-    return await apiRequest("PATCH", `/entries/${id}`, token, data);
+    return await apiRequest("PATCH", `/entries/entry/${id}`, token, data);
   },
 };
 

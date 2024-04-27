@@ -18,6 +18,7 @@ import ModalWrapper from "../ModalWrapper";
 import entriesService from "../../services/entriesService";
 import useToken from "../../hooks/useToken";
 import { addEntrySteps } from "../../utils/constants";
+import { useSelector } from "react-redux";
 
 function StepContent({ activeStep, entry, handleChangeEntry }) {
   switch (activeStep) {
@@ -59,6 +60,8 @@ function StepContent({ activeStep, entry, handleChangeEntry }) {
 }
 
 export default function AddEntryModal({ open, handleClose }) {
+  const { user } = useSelector((state) => state.user);
+
   const [activeStep, setActiveStep] = useState(0);
   const [token] = useToken();
   const [entry, setEntry] = useState({
@@ -78,7 +81,7 @@ export default function AddEntryModal({ open, handleClose }) {
   };
 
   const handleSubmit = async () => {
-    const res = await entriesService.createEntry(token, entry);
+    const res = await entriesService.createEntry(token, user?._id, entry);
     if (res && !res.err) {
       handleNext();
     }

@@ -32,14 +32,15 @@ export default function Root() {
   };
 
   const retrieveAllRecords = async () => {
-    const res = await entriesService.getAllEntries(token);
+    const res = await entriesService.getAllEntries(token, user._id);
     dispatch(refreshEntries(res));
   };
 
   useEffect(() => {
-    if (token && !isAddModelOpen && !isViewModelOpen) retrieveAllRecords();
+    if (token && !isAddModelOpen && !isViewModelOpen && user._id)
+      retrieveAllRecords();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, isAddModelOpen, isViewModelOpen]);
+  }, [token, isAddModelOpen, isViewModelOpen, user]);
 
   useEffect(() => {
     if (token && clerkUser?.primaryEmailAddress?.emailAddress)
