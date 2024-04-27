@@ -1,17 +1,35 @@
 import React, { useState } from "react";
 import { Grid, Box, Typography, Button, IconButton } from "@mui/material";
 import dayjs from "dayjs";
-import { useAuth } from "@clerk/clerk-react";
-import { useSelector } from "react-redux";
+import { useAuth, useUser } from "@clerk/clerk-react";
+import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 import ModelWrapper from "../components/ModalWrapper";
+import userService from "../services/userService";
+import useToken from "../hooks/useToken";
+import { setUser } from "../redux/userSlice";
 
 function Profile() {
+  const [avatar, setAvatar] = useState("");
+
   const { signOut } = useAuth();
   const { user } = useSelector((state) => state.user);
+  const [token] = useToken();
 
   const [isChangeModelOpen, setIsChangeModelOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const { user: clerkUser } = useUser();
+
+  const retrieveUserData = async () => {
+    const res = await userService.getUser(
+      token,
+      clerkUser?.primaryEmailAddress?.emailAddress
+    );
+    dispatch(setUser(res));
+  };
 
   const handleDeleteProfileImg = () => {
     console.log("Delete profile image clicked");
@@ -20,12 +38,25 @@ function Profile() {
   const handleOpenChangeModel = () => setIsChangeModelOpen(true);
   const handleCloseChangeModel = () => setIsChangeModelOpen(false);
 
-  const handleUploadNewProfileImage = () => {
-    console.log("uploaded new profile image");
+  const handleChangeProfileImg = (e) => {
+    setAvatar(e.target.files[0]);
+  };
+
+  const handleUploadNewProfileImage = async () => {
+    const data = new FormData();
+    data.append("avatar", avatar);
+
+    const res = await userService.updateAvatar(token, user._id, data);
+
+    if (res && !res.err) {
+      handleCloseChangeModel();
+      retrieveUserData();
+    }
   };
 
   return (
     <>
+      {/* Main section */}
       <Grid container spacing={2} mt={2}>
         <Grid
           item
@@ -44,7 +75,6 @@ function Profile() {
               src={user?.profileImg}
               sx={{
                 width: { xs: 200, sm: 400 },
-                height: { xs: 200, sm: 400 },
                 border: "1px solid black",
               }}
             />
@@ -69,7 +99,7 @@ function Profile() {
                 sx={{ border: "1px solid" }}
                 onClick={handleOpenChangeModel}
               >
-                <EditIcon />
+                {user?.profileImg ? <EditIcon /> : <AddIcon />}
               </IconButton>
             </Box>
           </Box>
@@ -97,10 +127,17 @@ function Profile() {
           </Button>
         </Grid>
       </Grid>
+
+      {/* Change Profile Image model */}
       <ModelWrapper open={isChangeModelOpen}>
         <Button component="label" variant="outlined" fullWidth mb={1} mt={1}>
-          Select new Profile Image
-          <input type="file" hidden />
+          {avatar ? avatar?.name : "Select new Profile Image"}
+          <input
+            type="file"
+            name="avatar"
+            onChange={handleChangeProfileImg}
+            hidden
+          />
         </Button>
         <Box
           sx={{
