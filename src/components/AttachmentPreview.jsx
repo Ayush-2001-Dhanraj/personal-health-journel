@@ -49,9 +49,11 @@ function AttachmentPreview({ open, handleClose, entry = {} }) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: 300,
+          height: 320,
           overflow: "auto",
         }}
+        mt={2}
+        mb={2}
       >
         {fileType === "pdf" ? (
           <Viewer fileUrl={entry.file} />
@@ -66,8 +68,6 @@ function AttachmentPreview({ open, handleClose, entry = {} }) {
             }}
             alt="attachment"
             src={entry?.file}
-            mt={2}
-            mb={2}
           />
         )}
       </Box>
