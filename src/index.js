@@ -14,6 +14,7 @@ import {
 } from "@clerk/clerk-react";
 import "./index.css";
 import ProtectedComp from "./utils/ProtectedComp";
+import { Worker } from "@react-pdf-viewer/core";
 
 const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
 
@@ -53,9 +54,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <ClerkProvider publishableKey={clerkPubKey}>
-      <Provider store={store}>
-        <RouterProvider router={router} />
-      </Provider>
+      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+        <Provider store={store}>
+          <RouterProvider router={router} />
+        </Provider>
+      </Worker>
     </ClerkProvider>
   </React.StrictMode>
 );
