@@ -4,7 +4,7 @@ import ModelWrapper from "./ModalWrapper";
 import { useDispatch } from "react-redux";
 import { closeAttachmentModel, openViewModel } from "../redux/globalSlice";
 
-function AttachmentPreview({ open, handleClose }) {
+function AttachmentPreview({ open, handleClose, entry = {} }) {
   const dispatch = useDispatch();
 
   const handleViewCompleteEntry = () => {
@@ -23,14 +23,25 @@ function AttachmentPreview({ open, handleClose }) {
       </Typography>
       <Box
         sx={{
-          height: 300,
-          maxHeight: { xs: 200, md: 300 },
-          cursor: "pointer",
-          border: "1px solid",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
-        mt={2}
-        mb={2}
-      ></Box>
+      >
+        <Box
+          component="img"
+          sx={{
+            height: 300,
+            maxHeight: { xs: 200, md: 300 },
+            cursor: "pointer",
+            border: "1px solid",
+          }}
+          alt="Logo"
+          src={entry?.file}
+          mt={2}
+          mb={2}
+        />
+      </Box>
       <Box
         sx={{
           display: "flex",
