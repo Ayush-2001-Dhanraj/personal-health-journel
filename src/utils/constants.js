@@ -16,4 +16,4 @@ export const addEntrySteps = [
   "Date",
 ];
 
-export const BASE_URL = "http://localhost:8000/v1";
+export const BASE_URL = process.env.REACT_APP_SERVER_URL;

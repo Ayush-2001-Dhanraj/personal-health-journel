@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  theme: "dark",
+  theme: "light",
   isAddModelOpen: false,
   isViewModelOpen: false,
   isAttachmentModelOpen: false,
