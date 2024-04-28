@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import ModelWrapper from "./ModalWrapper";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { closeAttachmentModel, openViewModel } from "../redux/globalSlice";
 import { Viewer } from "@react-pdf-viewer/core";
+import useToken from "../hooks/useToken";
+import entriesService from "../services/entriesService";
 
-function AttachmentPreview({ open, handleClose, entry = {} }) {
+function AttachmentPreview({ open, handleClose }) {
+  const [attachment, setAttachment] = useState("");
   const [fileType, setFileType] = useState("");
+
+  const [token] = useToken();
+
+  const { selectedEntry } = useSelector((state) => state.entries);
 
   const dispatch = useDispatch();
 
@@ -16,12 +23,12 @@ function AttachmentPreview({ open, handleClose, entry = {} }) {
   };
 
   const handleDownload = () => {
-    window.open(entry?.file, "_blank");
+    window.open(attachment, "_blank");
   };
 
   useEffect(() => {
     const getFileType = () => {
-      const extension = entry?.file.split(".").pop().toLowerCase();
+      const extension = attachment.split(".").pop().toLowerCase();
       if (extension === "pdf") {
         setFileType("pdf");
       } else if (
@@ -36,8 +43,20 @@ function AttachmentPreview({ open, handleClose, entry = {} }) {
       }
     };
 
-    getFileType();
-  }, [entry]);
+    if (attachment) getFileType();
+  }, [attachment]);
+
+  const retrieveAttachment = async () => {
+    const res = await entriesService.getAttachment(token, selectedEntry);
+    if (res.file) setAttachment(res.file);
+  };
+
+  useEffect(() => {
+    if (selectedEntry && token) {
+      retrieveAttachment();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedEntry, token]);
 
   return (
     <ModelWrapper open={open} styles={{ width: { xs: "80%", sm: "70%" } }}>
@@ -56,7 +75,7 @@ function AttachmentPreview({ open, handleClose, entry = {} }) {
         mb={2}
       >
         {fileType === "pdf" ? (
-          <Viewer fileUrl={entry.file} />
+          <Viewer fileUrl={attachment} />
         ) : (
           <Box
             component="img"
@@ -67,7 +86,7 @@ function AttachmentPreview({ open, handleClose, entry = {} }) {
               border: "1px solid",
             }}
             alt="attachment"
-            src={entry?.file}
+            src={attachment}
           />
         )}
       </Box>

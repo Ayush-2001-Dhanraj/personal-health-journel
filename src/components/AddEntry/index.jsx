@@ -121,10 +121,6 @@ export default function AddEntryModal({ open, handleClose }) {
     }
   }, [activeStep, handleClose]);
 
-  useEffect(() => {
-    console.log(entry);
-  }, [entry]);
-
   return (
     <ModalWrapper open={open}>
       <Typography

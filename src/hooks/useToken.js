@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "@clerk/clerk-react";
+import { useSession } from "@clerk/clerk-react";
 
 const useToken = () => {
   const [token, setToken] = useState(null);
 
-  const { getToken, isLoaded } = useAuth();
+  const { session, isLoaded } = useSession();
 
-  const retrieveUserData = async () => {
-    const tk = await getToken();
+  const retrieveToken = async () => {
+    const tk = await session.getToken();
     setToken(tk);
   };
 
   useEffect(() => {
-    retrieveUserData();
+    retrieveToken();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoaded]);
+  }, [isLoaded, session]);
 
   return [token];
 };

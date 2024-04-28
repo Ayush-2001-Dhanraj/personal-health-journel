@@ -22,6 +22,9 @@ const entriesService = {
   updateEntry: async (token, id, data) => {
     return await apiRequest("PATCH", `/entries/entry/${id}`, token, data);
   },
+  getAttachment: async (token, id) => {
+    return await apiRequest("GET", `/entries/entry/attachment/${id}`, token);
+  },
 };
 
 export default entriesService;

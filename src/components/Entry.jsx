@@ -16,7 +16,6 @@ function Entry({ r, onClick }) {
     e.stopPropagation();
     dispatch(setSelectedEntry(r._id));
     dispatch(openAttachmentModel());
-    console.log("handleAttachmentClick clicked");
   };
 
   return (
@@ -34,7 +33,7 @@ function Entry({ r, onClick }) {
       <Typography variant="caption" sx={{ display: "block" }}>
         {r.type}
       </Typography>
-      {true && (
+      {r.file && (
         <IconButton onClick={handleAttachmentClick} size="small">
           <AttachFileIcon fontSize="2" />
         </IconButton>

@@ -16,7 +16,6 @@ export default function Root() {
   const { theme } = useSelector((state) => state.global);
   const [token] = useToken();
   const { user: clerkUser } = useUser();
-
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { isAddModelOpen, isViewModelOpen } = useSelector(

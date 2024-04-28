@@ -13,11 +13,7 @@ import entriesService from "../../services/entriesService";
 import useToken from "../../hooks/useToken";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import {
-  closeAttachmentModel,
-  openAttachmentModel,
-} from "../../redux/globalSlice";
-import AttachmentPreview from "../AttachmentPreview";
+import { openAttachmentModel } from "../../redux/globalSlice";
 
 function ViewEntryModel({ open, handleClose }) {
   const [entry, setEntry] = useState({});
@@ -26,11 +22,9 @@ function ViewEntryModel({ open, handleClose }) {
   const [token] = useToken();
 
   const { selectedEntry } = useSelector((state) => state.entries);
-  const { isAttachmentModelOpen } = useSelector((state) => state.global);
 
   const dispatch = useDispatch();
 
-  const handleAttachmentClose = () => dispatch(closeAttachmentModel());
   const handleAttachmentOpen = () => dispatch(openAttachmentModel());
 
   const retrieveSelectedEntry = async () => {
@@ -59,10 +53,7 @@ function ViewEntryModel({ open, handleClose }) {
   };
 
   const handleAttachmentClick = () => {
-    if (entry?.file) {
-      handleAttachmentOpen();
-      console.log("Attachments clicked");
-    }
+    if (entry?.file) handleAttachmentOpen();
   };
 
   useEffect(() => {
@@ -168,13 +159,6 @@ function ViewEntryModel({ open, handleClose }) {
           </Button>
         </Box>
       </ModalWrapper>
-      {isAttachmentModelOpen && (
-        <AttachmentPreview
-          open={isAttachmentModelOpen}
-          handleClose={handleAttachmentClose}
-          entry={entry}
-        />
-      )}
     </>
   );
 }
