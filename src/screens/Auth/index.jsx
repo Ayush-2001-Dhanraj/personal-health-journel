@@ -72,7 +72,21 @@ function Auth() {
               </Typography>
             </Box>
           </Grid>
-        </Grid>
+        </Grid>{" "}
+        <Typography
+          variant="h3"
+          sx={{
+            position: "absolute",
+            bottom: 5,
+            left: { xs: 0, sm: 300 },
+            fontFamily: '"Caveat", cursive',
+            fontWeight: 400,
+            fontStyle: "normal",
+          }}
+          p={1}
+        >
+          Personal Health Journal
+        </Typography>
       </ThemeProvider>
     </>
   );
