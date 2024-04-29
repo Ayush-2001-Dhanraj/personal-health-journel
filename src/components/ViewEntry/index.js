@@ -134,6 +134,7 @@ function ViewEntryModel({ open, handleClose }) {
             variant={entry?.file ? "outlined" : "text"}
             fullWidth
             onClick={handleAttachmentClick}
+            disabled={!entry?.file}
           >
             {entry?.file ? "Preview Attachment" : "No Attachment present"}
           </Button>

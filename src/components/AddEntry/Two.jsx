@@ -22,7 +22,7 @@ function Two({
       <Box mt={1}>
         <TextField
           label="Title"
-          value={title || "--"}
+          value={title ? title : disabled ? "NA" : ""}
           disabled={disabled}
           helperText={disabled || compact ? "" : "Enter Title of the Entry"}
           variant="standard"
@@ -34,7 +34,7 @@ function Two({
       <Box mt={1}>
         <TextField
           label="Subtitle"
-          value={subtitle || "--"}
+          value={subtitle ? subtitle : disabled ? "NA" : ""}
           disabled={disabled}
           helperText={disabled || compact ? "" : "Enter Title of the Entry"}
           variant="standard"

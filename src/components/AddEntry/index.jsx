@@ -163,14 +163,16 @@ export default function AddEntryModal({ open, handleClose }) {
             />
           </Box>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
+            {activeStep !== 0 && (
+              <Button
+                color="inherit"
+                disabled={activeStep === 0}
+                onClick={handleBack}
+                sx={{ mr: 1 }}
+              >
+                Back
+              </Button>
+            )}
             <Box sx={{ flex: "1 1 auto" }} />
 
             <Button
@@ -179,6 +181,7 @@ export default function AddEntryModal({ open, handleClose }) {
                   ? handleSubmit
                   : handleNext
               }
+              disabled={activeStep === 1 && !entry.title.trim()}
             >
               {activeStep === addEntrySteps.length - 1 ? "Submit" : "Next"}
             </Button>

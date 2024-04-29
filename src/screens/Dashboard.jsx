@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Fab, Box } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { VerticalTimeline } from "react-vertical-timeline-component";
-
+import { motion } from "framer-motion";
 import Entry from "../components/Entry";
 import AddEntryModal from "../components/AddEntry";
 import ViewEntryModel from "../components/ViewEntry";
@@ -46,14 +46,26 @@ function Dashboard() {
       <Box
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
-        <Fab size="small" color="primary" onClick={handleAddOpen}>
+        <Fab
+          size="small"
+          color="primary"
+          onClick={handleAddOpen}
+          component={motion.button}
+          whileTap={{ scale: 0.9 }}
+          whileHover={{
+            scale: 1.1,
+            transition: { duration: 1 },
+          }}
+        >
           <AddIcon />
         </Fab>
       </Box>
       {/* Timeline */}
       <VerticalTimeline>
         {entries &&
-          entries.map((e) => <Entry r={e} onClick={handleEntryClick} />)}
+          entries.map((e) => (
+            <Entry r={e} onClick={handleEntryClick} key={e._id} />
+          ))}
       </VerticalTimeline>
 
       {/* models */}

@@ -13,7 +13,7 @@ export const addEntrySteps = [
   "Type",
   "Title & Subtitle",
   "Description & Files",
-  "Date",
+  "Event Date",
 ];
 
 export const BASE_URL = process.env.REACT_APP_SERVER_URL;

@@ -25,7 +25,7 @@ function Three({
     <>
       <Box mt={1} mb={1}>
         <TextField
-          value={description || "--"}
+          value={description ? description : disabled ? "NA" : ""}
           placeholder="Description"
           label="Description"
           disabled={disabled}

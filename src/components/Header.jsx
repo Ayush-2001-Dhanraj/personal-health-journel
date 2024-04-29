@@ -26,6 +26,7 @@ function Header() {
   return (
     <Grid container pt={2}>
       <Grid
+        item
         md={2}
         xs={4}
         sx={{
@@ -37,6 +38,7 @@ function Header() {
         <Logo />
       </Grid>
       <Grid
+        item
         md={8}
         xs={4}
         sx={{
@@ -51,6 +53,7 @@ function Header() {
         </IconButton>
       </Grid>
       <Grid
+        item
         md={2}
         xs={4}
         onClick={handleClickUserName}
