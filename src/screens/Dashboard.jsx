@@ -1,14 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Fab, Box } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import AddIcon from "@mui/icons-material/Add";
-import {
-  VerticalTimeline,
-  VerticalTimelineElement,
-} from "react-vertical-timeline-component";
-import BiotechIcon from "@mui/icons-material/Biotech";
-import ReceiptIcon from "@mui/icons-material/Receipt";
+import { VerticalTimeline } from "react-vertical-timeline-component";
+
 import Entry from "../components/Entry";
 import AddEntryModal from "../components/AddEntry";
 import ViewEntryModel from "../components/ViewEntry";
@@ -21,12 +16,9 @@ import {
   openViewModel,
 } from "../redux/globalSlice";
 import AttachmentPreview from "../components/AttachmentPreview";
-import dayjs from "dayjs";
 
 function Dashboard() {
   const { entries } = useSelector((state) => state.entries);
-
-  const theme = useTheme();
 
   const dispatch = useDispatch();
 
@@ -61,26 +53,7 @@ function Dashboard() {
       {/* Timeline */}
       <VerticalTimeline>
         {entries &&
-          entries.map((e) => (
-            <VerticalTimelineElement
-              key={e._id}
-              className="vertical-timeline-element--work"
-              contentStyle={{
-                background: theme.palette.primary.main,
-              }}
-              contentArrowStyle={{
-                borderRight: `7px solid  ${theme.palette.primary.main}`,
-              }}
-              date={dayjs(e.eventDate).format("LL")}
-              iconStyle={{
-                background: theme.palette.background.default,
-                color: theme.palette.primary.main,
-              }}
-              icon={e.type === "GEN" ? <ReceiptIcon /> : <BiotechIcon />}
-            >
-              <Entry r={e} onClick={handleEntryClick} />
-            </VerticalTimelineElement>
-          ))}
+          entries.map((e) => <Entry r={e} onClick={handleEntryClick} />)}
       </VerticalTimeline>
 
       {/* models */}
