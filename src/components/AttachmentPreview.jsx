@@ -7,6 +7,7 @@ import { Viewer } from "@react-pdf-viewer/core";
 import useToken from "../hooks/useToken";
 import entriesService from "../services/entriesService";
 import LaunchIcon from "@mui/icons-material/Launch";
+import isPdfFile from "../utils/isPdfFile";
 
 function AttachmentPreview({ open, handleClose }) {
   const [attachment, setAttachment] = useState("");
@@ -29,18 +30,10 @@ function AttachmentPreview({ open, handleClose }) {
 
   useEffect(() => {
     const getFileType = () => {
-      const extension = attachment.split(".").pop().toLowerCase();
-      if (extension === "pdf") {
+      if (isPdfFile(attachment)) {
         setFileType("pdf");
-      } else if (
-        extension === "jpg" ||
-        extension === "jpeg" ||
-        extension === "png" ||
-        extension === "gif"
-      ) {
-        setFileType("image");
       } else {
-        console.error("Unsupported file type");
+        setFileType("image");
       }
     };
 

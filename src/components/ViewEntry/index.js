@@ -15,6 +15,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { openAttachmentModel } from "../../redux/globalSlice";
 import { useTheme } from "@mui/material/styles";
+import isPdfFile from "../../utils/isPdfFile";
 
 function ViewEntryModel({ open, handleClose }) {
   const [entry, setEntry] = useState({});
@@ -56,11 +57,10 @@ function ViewEntryModel({ open, handleClose }) {
     if (res && !res.err) handleClose();
   };
 
-  const toggleIsExpanded = () => setIsExpanded((preV) => !preV);
-
-  const handleAttachmentClick = () => {
-    toggleIsExpanded();
-    if (entry?.file) handleAttachmentOpen();
+  const toggleIsExpanded = () => {
+    if (isPdfFile(entry.file)) {
+      handleAttachmentOpen();
+    } else setIsExpanded((preV) => !preV);
   };
 
   useEffect(() => {
@@ -226,7 +226,10 @@ function ViewEntryModel({ open, handleClose }) {
                   background: theme.palette.background.default,
                   color: theme.palette.primary.main,
                 }}
-                onClick={handleAttachmentClick}
+                onClick={() => {
+                  toggleIsExpanded();
+                  handleAttachmentOpen();
+                }}
               >
                 <OpenInFullIcon fontSize="12" />
               </IconButton>
