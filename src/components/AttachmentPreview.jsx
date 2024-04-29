@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import ModelWrapper from "./ModalWrapper";
 import { useDispatch, useSelector } from "react-redux";
 import { closeAttachmentModel, openViewModel } from "../redux/globalSlice";
 import { Viewer } from "@react-pdf-viewer/core";
 import useToken from "../hooks/useToken";
 import entriesService from "../services/entriesService";
+import LaunchIcon from "@mui/icons-material/Launch";
 
 function AttachmentPreview({ open, handleClose }) {
   const [attachment, setAttachment] = useState("");
@@ -60,36 +61,42 @@ function AttachmentPreview({ open, handleClose }) {
 
   return (
     <ModelWrapper open={open} styles={{ width: { xs: "80%", sm: "70%" } }}>
-      <Typography variant="h6" align="center">
-        Attachment Preview
-      </Typography>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: 320,
-          overflow: "auto",
-        }}
-        mt={2}
-        mb={2}
-      >
-        {fileType === "pdf" ? (
+      {fileType === "pdf" ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: 320,
+            overflow: "auto",
+          }}
+          mt={2}
+          mb={2}
+        >
           <Viewer fileUrl={attachment} />
-        ) : (
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          pb={2}
+        >
           <Box
             component="img"
             sx={{
-              height: 300,
-              maxHeight: { xs: 200, md: 300 },
+              maxWidth: "100%",
               cursor: "pointer",
               border: "1px solid",
             }}
             alt="attachment"
             src={attachment}
           />
-        )}
-      </Box>
+        </Box>
+      )}
+
       <Box
         sx={{
           display: "flex",
@@ -98,7 +105,7 @@ function AttachmentPreview({ open, handleClose }) {
         }}
       >
         <Button variant="contained" onClick={handleDownload}>
-          Download
+          <LaunchIcon />
         </Button>
         <Box>
           <Button variant="outlined" onClick={handleViewCompleteEntry}>
