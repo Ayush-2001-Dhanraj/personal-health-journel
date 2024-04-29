@@ -65,6 +65,7 @@ function Entry({ r, onClick }) {
             onClick={handleAttachmentClick}
             size="small"
             color="secondary"
+            background="primary"
           >
             <AttachFileIcon fontSize="2" />
           </IconButton>

@@ -45,7 +45,7 @@ function Dashboard() {
       sx={{
         height: "calc(100vh - 70px)",
         overflow: "auto",
-        "-ms-overflow-style": "none",
+        msOverflowStyle: "none",
         scrollbarWidth: "none",
       }}
       pt={2}

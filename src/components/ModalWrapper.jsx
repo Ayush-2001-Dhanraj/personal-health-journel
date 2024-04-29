@@ -8,6 +8,8 @@ const modalStyle = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: { xs: "80%", sm: 400 },
+  maxWidth: "90%",
+  maxHeight: "90%",
   bgcolor: "background.paper",
   boxShadow: 24,
   borderRadius: 1,

@@ -87,7 +87,7 @@ function AttachmentPreview({ open, handleClose }) {
           <Box
             component="img"
             sx={{
-              maxWidth: "100%",
+              width: "70%",
               cursor: "pointer",
               border: "1px solid",
             }}
