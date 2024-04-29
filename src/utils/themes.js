@@ -12,6 +12,9 @@ export const darkTheme = createTheme({
     primary: {
       main: "#FDFFC2",
     },
+    secondary: {
+      main: "#F97300",
+    },
   },
 });
 
@@ -26,6 +29,9 @@ export const lightTheme = createTheme({
     },
     primary: {
       main: "#F97300",
+    },
+    secondary: {
+      main: "#FDFFC2",
     },
   },
 });

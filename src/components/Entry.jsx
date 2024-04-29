@@ -3,8 +3,6 @@ import React from "react";
 import { Box, Typography, IconButton } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useTheme } from "@mui/material/styles";
-import styles from "./Entry.module.css";
-import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { setSelectedEntry } from "../redux/entriesSlice";
 import { openAttachmentModel } from "../redux/globalSlice";
@@ -22,14 +20,16 @@ function Entry({ r, onClick }) {
 
   return (
     <Box
-      className={styles.container}
       p={1}
       onClick={() => onClick(r)}
-      sx={{ color: theme.palette.background.default }}
+      sx={{
+        color: theme.palette.background.default,
+        cursor: "pointer",
+        border: `1px solid ${theme.palette.background.default}`,
+        "&:hover": { boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" },
+      }}
+      borderRadius={1}
     >
-      <Typography variant="caption">
-        {dayjs(r.eventDate).format("LL")}
-      </Typography>
       <Typography variant="h6">{r.title}</Typography>
       <Typography variant="subtitle2">{r.subtitle}</Typography>
       <Typography variant="body2">
@@ -41,7 +41,11 @@ function Entry({ r, onClick }) {
         {r.type}
       </Typography>
       {r.file && (
-        <IconButton onClick={handleAttachmentClick} size="small">
+        <IconButton
+          onClick={handleAttachmentClick}
+          size="small"
+          color="secondary"
+        >
           <AttachFileIcon fontSize="2" />
         </IconButton>
       )}

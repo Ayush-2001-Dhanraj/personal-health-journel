@@ -1,36 +1,71 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Typography, Grid, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 import Logo from "./Logo";
 import Clock from "./Clock";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleTheme } from "../redux/globalSlice";
 
 function Header() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
 
+  const { theme } = useSelector((state) => state.global);
+  const dispatch = useDispatch();
+
   const handleClickUserName = () => {
     navigate("/profile");
   };
 
+  const handleOnClickThemeBtn = () => {
+    dispatch(toggleTheme());
+  };
+
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-      mt={2}
-    >
-      <Box>
+    <Grid container pt={2}>
+      <Grid
+        md={2}
+        xs={4}
+        sx={{
+          display: "flex",
+          justifyContent: "left",
+          alignItems: "center",
+        }}
+      >
         <Logo />
-      </Box>
-      <Box onClick={handleClickUserName} sx={{ cursor: "pointer" }}>
+      </Grid>
+      <Grid
+        md={8}
+        xs={4}
+        sx={{
+          flex: 1,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <IconButton color="primary" onClick={handleOnClickThemeBtn}>
+          {theme === "light" ? <LightModeIcon /> : <DarkModeIcon />}
+        </IconButton>
+      </Grid>
+      <Grid
+        md={2}
+        xs={4}
+        onClick={handleClickUserName}
+        sx={{
+          cursor: "pointer",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-end",
+          flexWrap: "wrap",
+        }}
+      >
         <Clock />
         <Typography variant="caption">{user?.name}</Typography>
-      </Box>
-    </Box>
+      </Grid>
+    </Grid>
   );
 }
 

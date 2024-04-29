@@ -1,9 +1,0 @@
-.container {
-    border: 1px solid #fff;
-    cursor: pointer;
-    border-radius: 8px;
-}
-
-.container:hover {
-    border: 1px solid #a383de;
-}
