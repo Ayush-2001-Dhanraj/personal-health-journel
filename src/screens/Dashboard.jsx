@@ -1,17 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { Fab, Box } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import AddIcon from "@mui/icons-material/Add";
 import {
-  Timeline,
-  TimelineItem,
-  TimelineSeparator,
-  TimelineConnector,
-  TimelineContent,
-  TimelineDot,
-} from "@mui/lab";
-
+  VerticalTimeline,
+  VerticalTimelineElement,
+} from "react-vertical-timeline-component";
+import BiotechIcon from "@mui/icons-material/Biotech";
+import ReceiptIcon from "@mui/icons-material/Receipt";
 import Entry from "../components/Entry";
 import AddEntryModal from "../components/AddEntry";
 import ViewEntryModel from "../components/ViewEntry";
@@ -24,9 +21,12 @@ import {
   openViewModel,
 } from "../redux/globalSlice";
 import AttachmentPreview from "../components/AttachmentPreview";
+import dayjs from "dayjs";
 
 function Dashboard() {
   const { entries } = useSelector((state) => state.entries);
+
+  const theme = useTheme();
 
   const dispatch = useDispatch();
 
@@ -59,20 +59,30 @@ function Dashboard() {
         </Fab>
       </Box>
       {/* Timeline */}
-      <Timeline position="alternate">
+      <VerticalTimeline>
         {entries &&
-          entries.map((r) => (
-            <TimelineItem key={r._id}>
-              <TimelineSeparator>
-                <TimelineDot color="primary" />
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent>
-                <Entry r={r} onClick={handleEntryClick} />
-              </TimelineContent>
-            </TimelineItem>
+          entries.map((e) => (
+            <VerticalTimelineElement
+              key={e._id}
+              className="vertical-timeline-element--work"
+              contentStyle={{
+                background: theme.palette.primary.main,
+              }}
+              contentArrowStyle={{
+                borderRight: `7px solid  ${theme.palette.primary.main}`,
+              }}
+              date={dayjs(e.eventDate).format("LL")}
+              iconStyle={{
+                background: theme.palette.background.default,
+                color: theme.palette.primary.main,
+              }}
+              icon={e.type === "GEN" ? <ReceiptIcon /> : <BiotechIcon />}
+            >
+              <Entry r={e} onClick={handleEntryClick} />
+            </VerticalTimelineElement>
           ))}
-      </Timeline>
+      </VerticalTimeline>
+
       {/* models */}
       {isAddModelOpen && (
         <AddEntryModal open={isAddModelOpen} handleClose={handleAddClose} />

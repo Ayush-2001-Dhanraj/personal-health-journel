@@ -11,6 +11,7 @@ import useToken from "../hooks/useToken";
 import { useUser } from "@clerk/clerk-react";
 import { setUser } from "../redux/userSlice";
 import { refreshEntries } from "../redux/entriesSlice";
+import "react-vertical-timeline-component/style.min.css";
 
 export default function Root() {
   const { theme } = useSelector((state) => state.global);

@@ -2,7 +2,7 @@ import React from "react";
 
 import { Box, Typography, IconButton } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-
+import { useTheme } from "@mui/material/styles";
 import styles from "./Entry.module.css";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
@@ -12,6 +12,8 @@ import { openAttachmentModel } from "../redux/globalSlice";
 function Entry({ r, onClick }) {
   const dispatch = useDispatch();
 
+  const theme = useTheme();
+
   const handleAttachmentClick = (e) => {
     e.stopPropagation();
     dispatch(setSelectedEntry(r._id));
@@ -19,7 +21,12 @@ function Entry({ r, onClick }) {
   };
 
   return (
-    <Box className={styles.container} p={1} onClick={() => onClick(r)}>
+    <Box
+      className={styles.container}
+      p={1}
+      onClick={() => onClick(r)}
+      sx={{ color: theme.palette.background.default }}
+    >
       <Typography variant="caption">
         {dayjs(r.eventDate).format("LL")}
       </Typography>
