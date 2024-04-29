@@ -41,7 +41,15 @@ function Dashboard() {
   };
 
   return (
-    <Box>
+    <Box
+      sx={{
+        height: "calc(100vh - 70px)",
+        overflow: "auto",
+        "-ms-overflow-style": "none",
+        scrollbarWidth: "none",
+      }}
+      pt={2}
+    >
       {/* Add Entry Btn */}
       <Box
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}

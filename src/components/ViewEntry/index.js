@@ -70,7 +70,7 @@ function ViewEntryModel({ open, handleClose }) {
           mb={2}
           sx={{ position: "relative" }}
         >
-          Entry Details
+          {isEdit ? "Edit" : "View"} Details
           <IconButton
             size="small"
             color="primary"
