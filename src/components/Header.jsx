@@ -88,7 +88,12 @@ function Header() {
             width: "100%",
           }}
         >
-          <Lottie options={animationOptions} height={500} width={500} />
+          <Lottie
+            speed={0.2}
+            options={animationOptions}
+            height={450}
+            width={450}
+          />
         </Box>
       </Grid>
     </>
