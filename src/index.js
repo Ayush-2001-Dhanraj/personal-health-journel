@@ -15,6 +15,7 @@ import {
 import "./index.css";
 import ProtectedComp from "./utils/ProtectedComp";
 import { Worker } from "@react-pdf-viewer/core";
+import { pdfjs } from "react-pdf";
 
 const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
 
@@ -49,6 +50,11 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
 ]);
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.js",
+  import.meta.url
+).toString();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

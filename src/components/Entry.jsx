@@ -9,7 +9,10 @@ import { useDispatch } from "react-redux";
 import { setSelectedEntry } from "../redux/entriesSlice";
 import { openAttachmentModel } from "../redux/globalSlice";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
+import DownloadIcon from "@mui/icons-material/Download";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import dayjs from "dayjs";
+import Invoice from "./Invoice";
 
 function Entry({ r, onClick }) {
   const dispatch = useDispatch();
@@ -70,6 +73,29 @@ function Entry({ r, onClick }) {
             <AttachFileIcon fontSize="2" />
           </IconButton>
         )}
+
+        <IconButton
+          onClick={(e) => e.stopPropagation()}
+          size="small"
+          color="secondary"
+          background="primary"
+        >
+          <Box
+            component={PDFDownloadLink}
+            document={<Invoice entry={r} />}
+            fileName={`${r.title}.pdf`}
+            sx={{
+              color: theme.palette.background.default,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {({ blob, url, loading, error }) =>
+              loading ? "Loading document..." : <DownloadIcon fontSize="2" />
+            }
+          </Box>
+        </IconButton>
       </Box>
     </VerticalTimelineElement>
   );
