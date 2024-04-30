@@ -51,7 +51,7 @@ export default function Root() {
   return (
     <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
       <CssBaseline />
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" sx={{ overflow: "hidden" }}>
         <Header />
         <Outlet />
       </Container>
