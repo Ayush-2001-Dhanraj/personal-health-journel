@@ -3,11 +3,11 @@ import { Box, Button } from "@mui/material";
 import ModelWrapper from "./ModalWrapper";
 import { useDispatch, useSelector } from "react-redux";
 import { closeAttachmentModel, openViewModel } from "../redux/globalSlice";
-import { Viewer } from "@react-pdf-viewer/core";
 import useToken from "../hooks/useToken";
 import entriesService from "../services/entriesService";
 import LaunchIcon from "@mui/icons-material/Launch";
 import isPdfFile from "../utils/isPdfFile";
+import PDFpreview from "./PDFpreview";
 
 function AttachmentPreview({ open, handleClose }) {
   const [attachment, setAttachment] = useState("");
@@ -55,19 +55,7 @@ function AttachmentPreview({ open, handleClose }) {
   return (
     <ModelWrapper open={open} styles={{ width: { xs: "80%", sm: "70%" } }}>
       {fileType === "pdf" ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: 320,
-            overflow: "auto",
-          }}
-          mt={2}
-          mb={2}
-        >
-          <Viewer fileUrl={attachment} />
-        </Box>
+        <PDFpreview pdfFile={attachment} />
       ) : (
         <Box
           sx={{
