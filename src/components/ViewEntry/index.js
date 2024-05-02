@@ -16,6 +16,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import { openAttachmentModel } from "../../redux/globalSlice";
 import { useTheme } from "@mui/material/styles";
 import isPdfFile from "../../utils/isPdfFile";
+import Lottie from "react-lottie";
+import lightAnime from "../../assets/animations/viewEntryDay.json";
+import darkAnime from "../../assets/animations/viewEntryNight.json";
 
 function ViewEntryModel({ open, handleClose }) {
   const [entry, setEntry] = useState({});
@@ -25,6 +28,13 @@ function ViewEntryModel({ open, handleClose }) {
   const [token] = useToken();
 
   const theme = useTheme();
+  const { theme: selectedTheme } = useSelector((state) => state.global);
+
+  const animationOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: selectedTheme === "light" ? lightAnime : darkAnime,
+  };
 
   const { selectedEntry } = useSelector((state) => state.entries);
 
@@ -75,7 +85,13 @@ function ViewEntryModel({ open, handleClose }) {
         styles={{ p: 0, width: { xs: "80%", sm: isExpanded ? 800 : 400 } }}
       >
         <Grid container>
-          <Grid item sm={isExpanded ? 6 : 12} xs={12} p={2}>
+          <Grid
+            item
+            sm={isExpanded ? 6 : 12}
+            xs={12}
+            p={2}
+            sx={{ position: "relative" }}
+          >
             <Typography
               variant="h6"
               align="center"
@@ -182,6 +198,23 @@ function ViewEntryModel({ open, handleClose }) {
               >
                 {isEdit ? "Confirm" : "Close"}
               </Button>
+            </Box>
+
+            <Box
+              sx={{
+                position: "absolute",
+                top: -50,
+                left: "-50%",
+                zIndex: -1,
+                width: "100%",
+              }}
+            >
+              <Lottie
+                speed={0.6}
+                options={animationOptions}
+                height={100}
+                width={100}
+              />
             </Box>
           </Grid>
           {isExpanded && (

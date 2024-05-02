@@ -19,6 +19,9 @@ import entriesService from "../../services/entriesService";
 import useToken from "../../hooks/useToken";
 import { addEntrySteps } from "../../utils/constants";
 import { useSelector } from "react-redux";
+import Lottie from "react-lottie";
+import lightAnime from "../../assets/animations/addEntryDay.json";
+import darkAnime from "../../assets/animations/addEntryNight.json";
 
 function StepContent({ activeStep, entry, handleChangeEntry }) {
   switch (activeStep) {
@@ -75,6 +78,14 @@ export default function AddEntryModal({ open, handleClose }) {
     attachment: "",
   });
 
+  const { theme } = useSelector((state) => state.global);
+
+  const animationOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: theme === "light" ? lightAnime : darkAnime,
+  };
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -122,7 +133,7 @@ export default function AddEntryModal({ open, handleClose }) {
   }, [activeStep, handleClose]);
 
   return (
-    <ModalWrapper open={open}>
+    <ModalWrapper open={open} sx={{ position: "relative" }}>
       <Typography
         variant="h6"
         align="center"
@@ -188,6 +199,22 @@ export default function AddEntryModal({ open, handleClose }) {
           </Box>
         </>
       )}
+      <Box
+        sx={{
+          position: "absolute",
+          top: -100,
+          left: -200,
+          zIndex: -1,
+          width: "100%",
+        }}
+      >
+        <Lottie
+          speed={0.6}
+          options={animationOptions}
+          height={200}
+          width={200}
+        />
+      </Box>
     </ModalWrapper>
   );
 }
