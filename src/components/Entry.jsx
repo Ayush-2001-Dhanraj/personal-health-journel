@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, Typography, IconButton } from "@mui/material";
+import { Box, Typography, IconButton, CircularProgress } from "@mui/material";
 import BiotechIcon from "@mui/icons-material/Biotech";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -80,11 +80,10 @@ function Entry({ r, onClick }) {
           color="secondary"
           background="primary"
         >
-          <Box
-            component={PDFDownloadLink}
+          <PDFDownloadLink
             document={<Invoice entry={r} />}
             fileName={`${r.title}.pdf`}
-            sx={{
+            style={{
               color: theme.palette.background.default,
               display: "flex",
               justifyContent: "center",
@@ -92,9 +91,13 @@ function Entry({ r, onClick }) {
             }}
           >
             {({ blob, url, loading, error }) =>
-              loading ? "Loading document..." : <DownloadIcon fontSize="2" />
+              loading ? (
+                <CircularProgress color="secondary" size={20} />
+              ) : (
+                <DownloadIcon fontSize="2" />
+              )
             }
-          </Box>
+          </PDFDownloadLink>
         </IconButton>
       </Box>
     </VerticalTimelineElement>

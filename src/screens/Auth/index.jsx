@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { Navigate } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
@@ -9,6 +9,7 @@ import Login from "./Login";
 import Register from "./Register";
 import Lottie from "react-lottie";
 import loginAnimation from "../../assets/animations/login.json";
+import starterService from "../../services/starterService.js";
 
 function Auth() {
   const [currentView, setCurrentView] = useState("login");
@@ -16,6 +17,12 @@ function Auth() {
 
   const handleViewChange = () =>
     setCurrentView((preView) => (preView === "login" ? "register" : "login"));
+
+  const triggerBackend = async () => await starterService.startBackend();
+
+  useEffect(() => {
+    triggerBackend();
+  }, []);
 
   if (isSignedIn) return <Navigate to={"/"} />;
 
