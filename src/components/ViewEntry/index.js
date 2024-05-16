@@ -19,6 +19,7 @@ import Lottie from "react-lottie";
 import lightAnime from "../../assets/animations/viewEntryDay.json";
 import darkAnime from "../../assets/animations/viewEntryNight.json";
 import { useAuth } from "@clerk/clerk-react";
+import { setIsLoading as setIsLoadingEntries } from "../../redux/entriesSlice";
 
 function ViewEntryModel({ open, handleClose }) {
   const [entry, setEntry] = useState({});
@@ -71,7 +72,10 @@ function ViewEntryModel({ open, handleClose }) {
   const handleDelete = async () => {
     const authToken = await clerkAuth.getToken();
     const res = await entriesService.deleteEntry(authToken, selectedEntry);
-    if (res && !res.err) handleClose();
+    if (res && !res.err) {
+      dispatch(setIsLoadingEntries(true));
+      handleClose();
+    }
   };
 
   const toggleIsExpanded = () => {

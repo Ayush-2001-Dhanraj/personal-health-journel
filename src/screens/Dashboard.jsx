@@ -7,7 +7,11 @@ import { motion } from "framer-motion";
 import Entry from "../components/Entry";
 import AddEntryModal from "../components/AddEntry";
 import ViewEntryModel from "../components/ViewEntry";
-import { resetSelectedEntry, setSelectedEntry } from "../redux/entriesSlice";
+import {
+  resetSelectedEntry,
+  setIsLoading as setIsLoadingEntries,
+  setSelectedEntry,
+} from "../redux/entriesSlice";
 import {
   closeAddModel,
   closeAttachmentModel,
@@ -24,16 +28,26 @@ function Dashboard() {
 
   const { isAddModelOpen, isViewModelOpen, isAttachmentModelOpen } =
     useSelector((state) => state.global);
+
+  const reloadEntries = () => dispatch(setIsLoadingEntries(true));
+
   const handleAddOpen = () => dispatch(openAddModel());
-  const handleAddClose = () => dispatch(closeAddModel());
+  const handleAddClose = () => {
+    reloadEntries();
+    dispatch(closeAddModel());
+  };
 
   const handleViewOpen = () => dispatch(openViewModel());
   const handleViewClose = () => {
+    reloadEntries();
     dispatch(resetSelectedEntry());
     dispatch(closeViewModel());
   };
 
-  const handleAttachmentClose = () => dispatch(closeAttachmentModel());
+  const handleAttachmentClose = () => {
+    reloadEntries();
+    dispatch(closeAttachmentModel());
+  };
 
   const handleEntryClick = (r) => {
     dispatch(setSelectedEntry(r._id));

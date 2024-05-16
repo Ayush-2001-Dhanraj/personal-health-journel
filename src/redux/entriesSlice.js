@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   entries: [],
   selectedEntry: null,
+  isLoading: true,
 };
 
 const entriesSlice = createSlice({
@@ -18,10 +19,17 @@ const entriesSlice = createSlice({
     resetSelectedEntry(state, action) {
       state.selectedEntry = null;
     },
+    setIsLoading(state, action) {
+      state.isLoading = action.payload;
+    },
   },
 });
 
-export const { refreshEntries, setSelectedEntry, resetSelectedEntry } =
-  entriesSlice.actions;
+export const {
+  refreshEntries,
+  setSelectedEntry,
+  resetSelectedEntry,
+  setIsLoading,
+} = entriesSlice.actions;
 
 export default entriesSlice.reducer;

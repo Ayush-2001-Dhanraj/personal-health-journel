@@ -9,15 +9,15 @@ import {
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-
 import One from "./One";
 import Two from "./Two";
 import Three from "./Three";
 import Four from "./Four";
 import ModalWrapper from "../ModalWrapper";
 import entriesService from "../../services/entriesService";
+import { setIsLoading as setIsLoadingEntries } from "../../redux/entriesSlice";
 import { addEntrySteps } from "../../utils/constants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Lottie from "react-lottie";
 import lightAnime from "../../assets/animations/addEntryDay.json";
 import darkAnime from "../../assets/animations/addEntryNight.json";
@@ -67,6 +67,8 @@ function StepContent({ activeStep, entry, handleChangeEntry }) {
 export default function AddEntryModal({ open, handleClose }) {
   const { user } = useSelector((state) => state.user);
 
+  const dispatch = useDispatch();
+
   const [activeStep, setActiveStep] = useState(0);
   const [entry, setEntry] = useState({
     title: "",
@@ -78,12 +80,6 @@ export default function AddEntryModal({ open, handleClose }) {
   });
 
   const { theme } = useSelector((state) => state.global);
-
-  const animationOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: theme === "light" ? lightAnime : darkAnime,
-  };
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -106,6 +102,7 @@ export default function AddEntryModal({ open, handleClose }) {
 
     const res = await entriesService.createEntry(authToken, user?._id, data);
     if (res && !res.err) {
+      dispatch(setIsLoadingEntries(true));
       handleNext();
     }
   };
@@ -134,6 +131,12 @@ export default function AddEntryModal({ open, handleClose }) {
       }, 2000);
     }
   }, [activeStep, handleClose]);
+
+  const animationOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: theme === "light" ? lightAnime : darkAnime,
+  };
 
   return (
     <ModalWrapper open={open} sx={{ position: "relative" }}>

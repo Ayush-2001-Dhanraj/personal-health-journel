@@ -9,16 +9,20 @@ import userService from "../services/userService";
 import entriesService from "../services/entriesService";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { setUser } from "../redux/userSlice";
-import { refreshEntries } from "../redux/entriesSlice";
+import {
+  refreshEntries,
+  setIsLoading as setIsLoadingEntries,
+} from "../redux/entriesSlice";
 import "react-vertical-timeline-component/style.min.css";
 
 export default function Root() {
-  const { theme } = useSelector((state) => state.global);
   const clerkAuth = useAuth();
   const { user: clerkUser } = useUser();
   const dispatch = useDispatch();
+
   const { user } = useSelector((state) => state.user);
-  const { isAddModelOpen, isViewModelOpen } = useSelector(
+  const { isLoading: isLoadingEntries } = useSelector((state) => state.entries);
+  const { isAddModelOpen, isViewModelOpen, theme } = useSelector(
     (state) => state.global
   );
 
@@ -35,17 +39,23 @@ export default function Root() {
     const authToken = await clerkAuth.getToken();
     const res = await entriesService.getAllEntries(authToken, user._id);
     dispatch(refreshEntries(res));
+    if (isLoadingEntries) dispatch(setIsLoadingEntries(false));
   };
 
   useEffect(() => {
-    if (!isAddModelOpen && !isViewModelOpen && user._id) retrieveAllRecords();
+    if (!isAddModelOpen && !isViewModelOpen && user._id && isLoadingEntries)
+      retrieveAllRecords();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAddModelOpen, isViewModelOpen, user]);
+  }, [isAddModelOpen, isViewModelOpen, user, isLoadingEntries]);
 
   useEffect(() => {
     if (clerkUser?.primaryEmailAddress?.emailAddress) retrieveUserData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clerkUser]);
+
+  useEffect(() => {
+    console.log("isLoadingEntries", isLoadingEntries);
+  }, [isLoadingEntries]);
 
   return (
     <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>

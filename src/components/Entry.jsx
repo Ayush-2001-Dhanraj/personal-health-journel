@@ -6,21 +6,29 @@ import ReceiptIcon from "@mui/icons-material/Receipt";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useTheme } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedEntry } from "../redux/entriesSlice";
+import {
+  setIsLoading as setIsLoadingEntries,
+  setSelectedEntry,
+} from "../redux/entriesSlice";
 import { openAttachmentModel } from "../redux/globalSlice";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import DownloadIcon from "@mui/icons-material/Download";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Lottie from "react-lottie";
 import lightAnime from "../assets/animations/addEntryDay.json";
 import darkAnime from "../assets/animations/addEntryNight.json";
 import dayjs from "dayjs";
 import Invoice from "./Invoice";
+import { useAuth } from "@clerk/clerk-react";
+import entriesService from "../services/entriesService";
 
 function Entry({ r, onClick }) {
   const [isAnimeVisible, setIsAnimeVisible] = useState(false);
 
   const dispatch = useDispatch();
+
+  const clerkAuth = useAuth();
 
   const theme = useTheme();
   const { theme: selectedTheme } = useSelector((state) => state.global);
@@ -29,6 +37,13 @@ function Entry({ r, onClick }) {
     e.stopPropagation();
     dispatch(setSelectedEntry(r._id));
     dispatch(openAttachmentModel());
+  };
+
+  const handleDelete = async (e) => {
+    e.stopPropagation();
+    const authToken = await clerkAuth.getToken();
+    await entriesService.deleteEntry(authToken, r._id);
+    dispatch(setIsLoadingEntries(true));
   };
 
   const animationOptions = {
@@ -68,7 +83,7 @@ function Entry({ r, onClick }) {
         onMouseOver={() => setIsAnimeVisible(true)}
         onMouseLeave={() => setIsAnimeVisible(false)}
       >
-        <Typography variant="h6">{r.title}</Typography>
+        <Typography variant="h5">{r.title}</Typography>
         <Typography variant="subtitle2">{r.subtitle}</Typography>
         <Typography variant="body2">
           {r.description.length > 150
@@ -78,42 +93,55 @@ function Entry({ r, onClick }) {
         <Typography variant="caption" sx={{ display: "block" }}>
           {r.type}
         </Typography>
-        {r.file && (
-          <IconButton
-            onClick={handleAttachmentClick}
-            size="small"
-            color="secondary"
-            background="primary"
-          >
-            <AttachFileIcon fontSize="2" />
-          </IconButton>
-        )}
 
-        <IconButton
-          onClick={(e) => e.stopPropagation()}
-          size="small"
-          color="secondary"
-          background="primary"
-        >
-          <PDFDownloadLink
-            document={<Invoice entry={r} />}
-            fileName={`${r.title}.pdf`}
-            style={{
-              color: theme.palette.background.default,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {({ blob, url, loading, error }) =>
-              loading ? (
-                <CircularProgress color="secondary" size={20} />
-              ) : (
-                <DownloadIcon fontSize="2" />
-              )
-            }
-          </PDFDownloadLink>
-        </IconButton>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box>
+            {r.file && (
+              <IconButton
+                onClick={handleAttachmentClick}
+                size="small"
+                sx={{ color: theme.palette.background.default }}
+              >
+                <AttachFileIcon fontSize="2" />
+              </IconButton>
+            )}
+          </Box>
+          <Box>
+            <IconButton
+              onClick={(e) => e.stopPropagation()}
+              size="small"
+              color="secondary"
+              background="primary"
+            >
+              <PDFDownloadLink
+                document={<Invoice entry={r} />}
+                fileName={`${r.title}.pdf`}
+                style={{
+                  color: theme.palette.background.default,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {({ blob, url, loading, error }) =>
+                  loading ? (
+                    <CircularProgress color="secondary" size={20} />
+                  ) : (
+                    <DownloadIcon color="secondary" fontSize="6" />
+                  )
+                }
+              </PDFDownloadLink>
+            </IconButton>
+            <IconButton
+              onClick={handleDelete}
+              size="small"
+              color="secondary"
+              background="primary"
+            >
+              <DeleteIcon fontSize="2" />
+            </IconButton>
+          </Box>
+        </Box>
 
         <Box
           sx={{
