@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-import { Typography, Box, IconButton, Button, Grid } from "@mui/material";
+import {
+  Typography,
+  Box,
+  IconButton,
+  Button,
+  Grid,
+  CircularProgress,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import ModalWrapper from "../ModalWrapper";
@@ -25,6 +32,7 @@ function ViewEntryModel({ open, handleClose }) {
   const [entry, setEntry] = useState({});
   const [isEdit, setIsEdit] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const clerkAuth = useAuth();
 
@@ -44,9 +52,11 @@ function ViewEntryModel({ open, handleClose }) {
   const handleAttachmentOpen = () => dispatch(openAttachmentModel());
 
   const retrieveSelectedEntry = async () => {
+    setIsLoading(true);
     const authToken = await clerkAuth.getToken();
     const res = await entriesService.getEntry(authToken, selectedEntry);
     setEntry(res);
+    setIsLoading(false);
   };
 
   const toggleEditMode = () => setIsEdit((preV) => !preV);
@@ -93,9 +103,12 @@ function ViewEntryModel({ open, handleClose }) {
     <>
       <ModalWrapper
         open={open}
-        styles={{ p: 0, width: { xs: "80%", sm: isExpanded ? 800 : 400 } }}
+        styles={{
+          p: 0,
+          width: { xs: "80%", sm: isExpanded ? 800 : 400 },
+        }}
       >
-        <Grid container>
+        <Grid container sx={{ position: "relative" }}>
           <Grid
             item
             sm={isExpanded ? 6 : 12}
@@ -216,7 +229,6 @@ function ViewEntryModel({ open, handleClose }) {
                 position: "absolute",
                 top: -50,
                 left: "-50%",
-                zIndex: -1,
                 width: "100%",
               }}
             >
@@ -278,6 +290,19 @@ function ViewEntryModel({ open, handleClose }) {
                 <OpenInFullIcon fontSize="12" />
               </IconButton>
             </>
+          )}
+
+          {isLoading && (
+            <Box
+              sx={{
+                top: "50%",
+                right: "50%",
+                transform: " translate(30%, -50%)",
+                position: "absolute",
+              }}
+            >
+              <CircularProgress />
+            </Box>
           )}
         </Grid>
       </ModalWrapper>

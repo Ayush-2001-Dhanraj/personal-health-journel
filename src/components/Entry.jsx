@@ -148,7 +148,6 @@ function Entry({ r, onClick }) {
             position: "absolute",
             top: 0,
             left: "-55%",
-            zIndex: -2,
             width: "100%",
           }}
         >
@@ -156,8 +155,8 @@ function Entry({ r, onClick }) {
             <Lottie
               speed={0.7}
               options={animationOptions}
-              height={200}
-              width={200}
+              height={100}
+              width={100}
             />
           )}
         </Box>
