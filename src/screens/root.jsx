@@ -7,15 +7,14 @@ import { darkTheme, lightTheme } from "../utils/themes";
 import Header from "../components/Header";
 import userService from "../services/userService";
 import entriesService from "../services/entriesService";
-import useToken from "../hooks/useToken";
-import { useUser } from "@clerk/clerk-react";
+import { useAuth, useUser } from "@clerk/clerk-react";
 import { setUser } from "../redux/userSlice";
 import { refreshEntries } from "../redux/entriesSlice";
 import "react-vertical-timeline-component/style.min.css";
 
 export default function Root() {
   const { theme } = useSelector((state) => state.global);
-  const [token] = useToken();
+  const clerkAuth = useAuth();
   const { user: clerkUser } = useUser();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
@@ -24,29 +23,29 @@ export default function Root() {
   );
 
   const retrieveUserData = async () => {
+    const authToken = await clerkAuth.getToken();
     const res = await userService.getUser(
-      token,
+      authToken,
       clerkUser?.primaryEmailAddress?.emailAddress
     );
     dispatch(setUser(res));
   };
 
   const retrieveAllRecords = async () => {
-    const res = await entriesService.getAllEntries(token, user._id);
+    const authToken = await clerkAuth.getToken();
+    const res = await entriesService.getAllEntries(authToken, user._id);
     dispatch(refreshEntries(res));
   };
 
   useEffect(() => {
-    if (token && !isAddModelOpen && !isViewModelOpen && user._id)
-      retrieveAllRecords();
+    if (!isAddModelOpen && !isViewModelOpen && user._id) retrieveAllRecords();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, isAddModelOpen, isViewModelOpen, user]);
+  }, [isAddModelOpen, isViewModelOpen, user]);
 
   useEffect(() => {
-    if (token && clerkUser?.primaryEmailAddress?.emailAddress)
-      retrieveUserData();
+    if (clerkUser?.primaryEmailAddress?.emailAddress) retrieveUserData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  }, [clerkUser]);
 
   return (
     <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>

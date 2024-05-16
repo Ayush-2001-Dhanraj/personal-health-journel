@@ -3,17 +3,17 @@ import { Box, Button } from "@mui/material";
 import ModelWrapper from "./ModalWrapper";
 import { useDispatch, useSelector } from "react-redux";
 import { closeAttachmentModel, openViewModel } from "../redux/globalSlice";
-import useToken from "../hooks/useToken";
 import entriesService from "../services/entriesService";
 import LaunchIcon from "@mui/icons-material/Launch";
 import isPdfFile from "../utils/isPdfFile";
 import PDFpreview from "./PDFpreview";
+import { useAuth } from "@clerk/clerk-react";
 
 function AttachmentPreview({ open, handleClose }) {
   const [attachment, setAttachment] = useState("");
   const [fileType, setFileType] = useState("");
 
-  const [token] = useToken();
+  const clerkAuth = useAuth();
 
   const { selectedEntry } = useSelector((state) => state.entries);
 
@@ -41,16 +41,17 @@ function AttachmentPreview({ open, handleClose }) {
   }, [attachment]);
 
   const retrieveAttachment = async () => {
-    const res = await entriesService.getAttachment(token, selectedEntry);
+    const authToken = await clerkAuth.getToken();
+    const res = await entriesService.getAttachment(authToken, selectedEntry);
     if (res.file) setAttachment(res.file);
   };
 
   useEffect(() => {
-    if (selectedEntry && token) {
+    if (selectedEntry) {
       retrieveAttachment();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedEntry, token]);
+  }, [selectedEntry]);
 
   return (
     <ModelWrapper open={open} styles={{ width: { xs: "80%", sm: "70%" } }}>

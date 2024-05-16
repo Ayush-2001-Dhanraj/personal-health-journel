@@ -8,15 +8,13 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import ModelWrapper from "../components/ModalWrapper";
 import userService from "../services/userService";
-import useToken from "../hooks/useToken";
 import { setUser } from "../redux/userSlice";
 
 function Profile() {
   const [avatar, setAvatar] = useState("");
 
-  const { signOut } = useAuth();
+  const { signOut, getToken } = useAuth();
   const { user } = useSelector((state) => state.user);
-  const [token] = useToken();
 
   const [isChangeModelOpen, setIsChangeModelOpen] = useState(false);
 
@@ -24,8 +22,9 @@ function Profile() {
   const { user: clerkUser } = useUser();
 
   const retrieveUserData = async () => {
+    const authToken = await getToken();
     const res = await userService.getUser(
-      token,
+      authToken,
       clerkUser?.primaryEmailAddress?.emailAddress
     );
     dispatch(setUser(res));
@@ -46,7 +45,9 @@ function Profile() {
     const data = new FormData();
     data.append("avatar", avatar);
 
-    const res = await userService.updateAvatar(token, user._id, data);
+    const authToken = await getToken();
+
+    const res = await userService.updateAvatar(authToken, user._id, data);
 
     if (res && !res.err) {
       handleCloseChangeModel();

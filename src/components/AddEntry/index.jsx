@@ -16,12 +16,12 @@ import Three from "./Three";
 import Four from "./Four";
 import ModalWrapper from "../ModalWrapper";
 import entriesService from "../../services/entriesService";
-import useToken from "../../hooks/useToken";
 import { addEntrySteps } from "../../utils/constants";
 import { useSelector } from "react-redux";
 import Lottie from "react-lottie";
 import lightAnime from "../../assets/animations/addEntryDay.json";
 import darkAnime from "../../assets/animations/addEntryNight.json";
+import { useAuth } from "@clerk/clerk-react";
 
 function StepContent({ activeStep, entry, handleChangeEntry }) {
   switch (activeStep) {
@@ -68,7 +68,6 @@ export default function AddEntryModal({ open, handleClose }) {
   const { user } = useSelector((state) => state.user);
 
   const [activeStep, setActiveStep] = useState(0);
-  const [token] = useToken();
   const [entry, setEntry] = useState({
     title: "",
     subtitle: "",
@@ -94,14 +93,18 @@ export default function AddEntryModal({ open, handleClose }) {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  const clerkAuth = useAuth();
+
   const handleSubmit = async () => {
     const data = new FormData();
+
+    const authToken = await clerkAuth.getToken();
 
     for (let key in entry) {
       data.append(key, entry[key]);
     }
 
-    const res = await entriesService.createEntry(token, user?._id, data);
+    const res = await entriesService.createEntry(authToken, user?._id, data);
     if (res && !res.err) {
       handleNext();
     }
@@ -122,7 +125,7 @@ export default function AddEntryModal({ open, handleClose }) {
       description: "",
       eventDate: new Date().toISOString(),
     });
-  }, [open, token]);
+  }, [open]);
 
   useEffect(() => {
     if (activeStep === addEntrySteps.length) {

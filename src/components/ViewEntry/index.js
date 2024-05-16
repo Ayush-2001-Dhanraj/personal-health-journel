@@ -10,7 +10,6 @@ import Three from "../AddEntry/Three";
 import Four from "../AddEntry/Four";
 import { useDispatch, useSelector } from "react-redux";
 import entriesService from "../../services/entriesService";
-import useToken from "../../hooks/useToken";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { openAttachmentModel } from "../../redux/globalSlice";
@@ -19,13 +18,14 @@ import isPdfFile from "../../utils/isPdfFile";
 import Lottie from "react-lottie";
 import lightAnime from "../../assets/animations/viewEntryDay.json";
 import darkAnime from "../../assets/animations/viewEntryNight.json";
+import { useAuth } from "@clerk/clerk-react";
 
 function ViewEntryModel({ open, handleClose }) {
   const [entry, setEntry] = useState({});
   const [isEdit, setIsEdit] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const [token] = useToken();
+  const clerkAuth = useAuth();
 
   const theme = useTheme();
   const { theme: selectedTheme } = useSelector((state) => state.global);
@@ -43,7 +43,8 @@ function ViewEntryModel({ open, handleClose }) {
   const handleAttachmentOpen = () => dispatch(openAttachmentModel());
 
   const retrieveSelectedEntry = async () => {
-    const res = await entriesService.getEntry(token, selectedEntry);
+    const authToken = await clerkAuth.getToken();
+    const res = await entriesService.getEntry(authToken, selectedEntry);
     setEntry(res);
   };
 
@@ -56,14 +57,20 @@ function ViewEntryModel({ open, handleClose }) {
   };
 
   const handleConfirm = async () => {
-    const res = await entriesService.updateEntry(token, selectedEntry, entry);
+    const authToken = await clerkAuth.getToken();
+    const res = await entriesService.updateEntry(
+      authToken,
+      selectedEntry,
+      entry
+    );
     if (res && !res.err) {
       setIsEdit(false);
     }
   };
 
   const handleDelete = async () => {
-    const res = await entriesService.deleteEntry(token, selectedEntry);
+    const authToken = await clerkAuth.getToken();
+    const res = await entriesService.deleteEntry(authToken, selectedEntry);
     if (res && !res.err) handleClose();
   };
 
@@ -74,9 +81,9 @@ function ViewEntryModel({ open, handleClose }) {
   };
 
   useEffect(() => {
-    if (selectedEntry && token) retrieveSelectedEntry();
+    if (selectedEntry) retrieveSelectedEntry();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedEntry, isEdit, token]);
+  }, [selectedEntry, isEdit]);
 
   return (
     <>

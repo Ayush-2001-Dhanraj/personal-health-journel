@@ -89,7 +89,7 @@ function Header() {
           }}
         >
           <Lottie
-            speed={0.2}
+            speed={0.05}
             options={animationOptions}
             height={450}
             width={450}
