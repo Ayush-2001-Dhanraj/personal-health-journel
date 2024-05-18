@@ -58,7 +58,7 @@ function Profile() {
   return (
     <>
       {/* Main section */}
-      <Grid container spacing={2} mt={2}>
+      <Grid container spacing={2} mt={2} sx={{ flex: 1 }}>
         <Grid
           item
           xs={12}
@@ -66,7 +66,6 @@ function Profile() {
           sx={{
             display: "flex",
             justifyContent: "center",
-            alignItems: "center",
           }}
         >
           <Box sx={{ position: "relative" }}>
