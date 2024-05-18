@@ -13,7 +13,9 @@ function Footer() {
         alignItems: "center",
       }}
     >
-      <Typography variant="subtitle2">Ayush Dhanraj</Typography>
+      <Typography variant="subtitle2">
+        Ayush Dhanraj &copy; {new Date().getFullYear()}
+      </Typography>
       <Divider
         orientation="vertical"
         variant="middle"

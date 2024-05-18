@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../redux/globalSlice";
 import Lottie from "react-lottie";
 import sunAnimation from "../assets/animations/sun.json";
-import moonAnimation from "../assets/animations/moon2.json";
+import moonAnimation from "../assets/animations/moon.json";
 
 function Header() {
   const navigate = useNavigate();
