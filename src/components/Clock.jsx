@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 
 function Clock() {
@@ -26,7 +27,7 @@ function Clock() {
     }, 1000);
   }, []);
 
-  return <div>{time}</div>;
+  return <Typography color="secondary">{time}</Typography>;
 }
 
 export default Clock;

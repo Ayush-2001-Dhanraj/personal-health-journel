@@ -1,8 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
-import logo from "../assets/logo.png";
-import { Box } from "@mui/material";
+import { Typography } from "@mui/material";
 
 function Logo() {
   const navigate = useNavigate();
@@ -11,17 +9,19 @@ function Logo() {
 
   return (
     <>
-      <Box
-        component="img"
+      <Typography
+        variant="h5"
         sx={{
-          height: 40,
-          maxHeight: { xs: 30, md: 40 },
+          fontFamily: '"Caveat", cursive',
+          fontWeight: 400,
+          fontStyle: "normal",
           cursor: "pointer",
         }}
-        alt="Logo"
-        src={logo}
+        p={1}
         onClick={handleLogoClick}
-      />
+      >
+        PurePath Journal
+      </Typography>
     </>
   );
 }

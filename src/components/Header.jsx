@@ -34,7 +34,7 @@ function Header() {
 
   return (
     <>
-      <Grid container pt={2} sx={{ position: "relative" }}>
+      <Grid container pt={1}>
         <Grid
           item
           md={2}
@@ -58,7 +58,7 @@ function Header() {
             alignItems: "center",
           }}
         >
-          <IconButton color="secondary" onClick={handleOnClickThemeBtn}>
+          <IconButton color="primary" onClick={handleOnClickThemeBtn}>
             {theme === "light" ? <LightModeIcon /> : <DarkModeIcon />}
           </IconButton>
         </Grid>
@@ -72,20 +72,21 @@ function Header() {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-end",
+            justifyContent: "center",
             flexWrap: "wrap",
           }}
         >
           <Clock />
-          <Typography variant="caption">{user?.name}</Typography>
+          <Typography variant="caption" color="secondary">
+            {user?.name}
+          </Typography>
         </Grid>
         <Box
           sx={{
             position: "absolute",
-            top: -300,
-            marginLeft: "auto",
-            marginRight: "auto",
+            right: -180,
+            top: -250,
             zIndex: -1,
-            width: "100%",
           }}
         >
           <Lottie

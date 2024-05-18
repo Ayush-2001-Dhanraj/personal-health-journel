@@ -14,6 +14,7 @@ import {
   setIsLoading as setIsLoadingEntries,
 } from "../redux/entriesSlice";
 import "react-vertical-timeline-component/style.min.css";
+import Footer from "../components/Footer";
 
 export default function Root() {
   const clerkAuth = useAuth();
@@ -53,16 +54,22 @@ export default function Root() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clerkUser]);
 
-  useEffect(() => {
-    console.log("isLoadingEntries", isLoadingEntries);
-  }, [isLoadingEntries]);
-
   return (
     <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
       <CssBaseline />
-      <Container maxWidth="xl" sx={{ overflow: "hidden" }}>
+      <Container
+        maxWidth="xl"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100vh",
+          overflow: "hidden",
+          position: "relative",
+        }}
+      >
         <Header />
         <Outlet />
+        <Footer />
       </Container>
     </ThemeProvider>
   );

@@ -21,6 +21,7 @@ import {
 } from "../redux/globalSlice";
 import AttachmentPreview from "../components/AttachmentPreview";
 import EmptyEntries from "../components/EmptyEntries";
+import Filter from "../components/Filter";
 
 function Dashboard() {
   const { entries } = useSelector((state) => state.entries);
@@ -58,12 +59,13 @@ function Dashboard() {
   return (
     <Box
       sx={{
-        height: "calc(100vh - 70px)",
+        flex: 1,
         overflow: "auto",
         msOverflowStyle: "none",
         scrollbarWidth: "none",
+        position: "relative",
       }}
-      pt={2}
+      pt={1}
     >
       {/* Add Entry Btn */}
       <Box
@@ -93,6 +95,8 @@ function Dashboard() {
       ) : (
         <EmptyEntries />
       )}
+
+      {!!entries.length && <Filter />}
 
       {/* models */}
       {isAddModelOpen && (
