@@ -39,12 +39,6 @@ function ViewEntryModel({ open, handleClose }) {
   const theme = useTheme();
   const { theme: selectedTheme } = useSelector((state) => state.global);
 
-  const animationOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: selectedTheme === "light" ? lightAnime : darkAnime,
-  };
-
   const { selectedEntry } = useSelector((state) => state.entries);
 
   const dispatch = useDispatch();
@@ -98,6 +92,12 @@ function ViewEntryModel({ open, handleClose }) {
     if (selectedEntry) retrieveSelectedEntry();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedEntry, isEdit]);
+
+  const animationOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: selectedTheme === "light" ? lightAnime : darkAnime,
+  };
 
   return (
     <>

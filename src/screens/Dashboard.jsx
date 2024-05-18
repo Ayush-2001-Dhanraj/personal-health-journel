@@ -20,6 +20,7 @@ import {
   openViewModel,
 } from "../redux/globalSlice";
 import AttachmentPreview from "../components/AttachmentPreview";
+import EmptyEntries from "../components/EmptyEntries";
 
 function Dashboard() {
   const { entries } = useSelector((state) => state.entries);
@@ -83,12 +84,15 @@ function Dashboard() {
         </Fab>
       </Box>
       {/* Timeline */}
-      <VerticalTimeline>
-        {entries &&
-          entries.map((e) => (
+      {!!entries.length ? (
+        <VerticalTimeline>
+          {entries.map((e) => (
             <Entry r={e} onClick={handleEntryClick} key={e._id} />
           ))}
-      </VerticalTimeline>
+        </VerticalTimeline>
+      ) : (
+        <EmptyEntries />
+      )}
 
       {/* models */}
       {isAddModelOpen && (

@@ -10,6 +10,7 @@ import Register from "./Register";
 import Lottie from "react-lottie";
 import loginAnimation from "../../assets/animations/login.json";
 import starterService from "../../services/starterService.js";
+import Footer from "../../components/Footer.jsx";
 
 function Auth() {
   const [currentView, setCurrentView] = useState("login");
@@ -36,64 +37,57 @@ function Auth() {
     <>
       <ThemeProvider theme={lightTheme}>
         <CssBaseline />
-        <Grid container spacing={0} sx={{ overflow: "hidden" }}>
-          <Grid item xs={12} sm={8}>
-            <Box
-              sx={{
-                height: { xs: 200, sm: "100vh" },
-                width: { xs: "100vw", sm: "inherit" },
-                position: "relative",
-              }}
-            >
-              <Box
-                sx={{
-                  position: "absolute",
-                  bottom: -100,
-                  left: -100,
-                  zIndex: -1,
-                }}
-              >
-                <Lottie options={loginAnimeOptions} height={500} width={500} />
-              </Box>
-            </Box>
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <Box
+        <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+          <Grid container spacing={0} sx={{ flex: 1 }}>
+            <Grid
+              item
+              xs={12}
+              sm={8}
               sx={{
                 display: "flex",
-                flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                height: "100%",
               }}
             >
-              {currentView === "login" ? <Login /> : <Register />}
-              <Typography
-                variant="caption"
-                onClick={handleViewChange}
-                sx={{ cursor: "pointer", display: "block" }}
-                align="center"
+              <Lottie options={loginAnimeOptions} height={500} width={500} />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                }}
               >
-                {currentView === "login" ? "Don't have" : "Already have"} an
-                account??
-              </Typography>
-            </Box>
+                {currentView === "login" ? <Login /> : <Register />}
+                <Typography
+                  variant="caption"
+                  onClick={handleViewChange}
+                  sx={{ cursor: "pointer", display: "block" }}
+                  align="center"
+                >
+                  {currentView === "login"
+                    ? "New Here? Sign Up!"
+                    : "Have an account already? Sign In!"}
+                </Typography>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontFamily: '"Caveat", cursive',
+                    fontWeight: 400,
+                    fontStyle: "normal",
+                  }}
+                  p={1}
+                >
+                  PurePath Journal
+                </Typography>
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>{" "}
-        <Typography
-          variant="h3"
-          sx={{
-            position: "absolute",
-            bottom: 5,
-            left: { xs: 0, sm: 300 },
-            fontFamily: '"Caveat", cursive',
-            fontWeight: 400,
-            fontStyle: "normal",
-          }}
-          p={1}
-        >
-          Personal Health Journal
-        </Typography>
+          <Footer />
+        </Box>
       </ThemeProvider>
     </>
   );
