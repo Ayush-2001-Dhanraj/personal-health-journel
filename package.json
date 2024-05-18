@@ -21,6 +21,7 @@
     "framer-motion": "^11.1.7",
     "pdfjs-dist": "^3.4.120",
     "primereact": "^10.6.5",
+    "quill": "^2.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-lottie": "^1.2.4",

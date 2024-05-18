@@ -1,11 +1,15 @@
 export const testTypes = [
   {
-    value: "RES",
-    label: "Test Result",
+    value: "VIS",
+    label: "Doctor Visit",
   },
   {
     value: "GEN",
     label: "General Entry",
+  },
+  {
+    value: "TES",
+    label: "Test",
   },
 ];
 
@@ -14,6 +18,7 @@ export const addEntrySteps = [
   "Title & Subtitle",
   "Description & Files",
   "Event Date",
+  "Preview",
 ];
 
 export const SERVER_URL = process.env.REACT_APP_SERVER_URL;

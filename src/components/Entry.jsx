@@ -101,19 +101,21 @@ function Entry({ r, onClick }) {
           {r.title}
           <Typography variant="caption">{r.type}</Typography>
         </Typography>
-        <Typography
-          variant="subtitle2"
+        <Box
           sx={{
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "center",
             alignItems: "center",
           }}
         >
-          {r.subtitle}
+          <Typography variant="subtitle2" sx={{ flex: 1 }}>
+            {r.subtitle}
+          </Typography>
+
           <Box>
             {r.file && (
               <IconButton
-                onClick={handleAttachmentClick}
+                onClickCapture={handleAttachmentClick}
                 size="small"
                 sx={{ color: theme.palette.background.default }}
               >
@@ -121,7 +123,7 @@ function Entry({ r, onClick }) {
               </IconButton>
             )}
             <IconButton
-              onClick={(e) => e.stopPropagation()}
+              onClickCapture={(e) => e.stopPropagation()}
               size="small"
               color="secondary"
               background="primary"
@@ -146,7 +148,7 @@ function Entry({ r, onClick }) {
               </PDFDownloadLink>
             </IconButton>
             <IconButton
-              onClick={handleDelete}
+              onClickCapture={handleDelete}
               size="small"
               color="secondary"
               background="primary"
@@ -154,7 +156,7 @@ function Entry({ r, onClick }) {
               <DeleteIcon fontSize="2" />
             </IconButton>
           </Box>
-        </Typography>
+        </Box>
 
         <Box
           sx={{

@@ -5,7 +5,6 @@ import AddIcon from "@mui/icons-material/Add";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import { motion } from "framer-motion";
 import Entry from "../components/Entry";
-import AddEntryModal from "../components/AddEntry";
 import ViewEntryModel from "../components/ViewEntry";
 import {
   resetSelectedEntry,
@@ -13,31 +12,29 @@ import {
   setSelectedEntry,
 } from "../redux/entriesSlice";
 import {
-  closeAddModel,
   closeAttachmentModel,
   closeViewModel,
-  openAddModel,
   openViewModel,
 } from "../redux/globalSlice";
 import AttachmentPreview from "../components/AttachmentPreview";
 import EmptyEntries from "../components/EmptyEntries";
 import Filter from "../components/Filter";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const { entries } = useSelector((state) => state.entries);
 
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
-  const { isAddModelOpen, isViewModelOpen, isAttachmentModelOpen } =
-    useSelector((state) => state.global);
+  const { isViewModelOpen, isAttachmentModelOpen } = useSelector(
+    (state) => state.global
+  );
 
   const reloadEntries = () => dispatch(setIsLoadingEntries(true));
 
-  const handleAddOpen = () => dispatch(openAddModel());
-  const handleAddClose = () => {
-    reloadEntries();
-    dispatch(closeAddModel());
-  };
+  const handleAddNewClick = () => navigate("/new");
 
   const handleViewOpen = () => dispatch(openViewModel());
   const handleViewClose = () => {
@@ -74,7 +71,7 @@ function Dashboard() {
         <Fab
           size="small"
           color="primary"
-          onClick={handleAddOpen}
+          onClick={handleAddNewClick}
           component={motion.button}
           whileTap={{ scale: 0.9 }}
           whileHover={{
@@ -99,9 +96,6 @@ function Dashboard() {
       {!!entries.length && <Filter />}
 
       {/* models */}
-      {isAddModelOpen && (
-        <AddEntryModal open={isAddModelOpen} handleClose={handleAddClose} />
-      )}
       {isViewModelOpen && (
         <ViewEntryModel open={isViewModelOpen} handleClose={handleViewClose} />
       )}
