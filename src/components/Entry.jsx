@@ -59,6 +59,7 @@ function Entry({ r, onClick }) {
       contentStyle={{
         background: theme.palette.primary.main,
         position: "relative",
+        padding: 4,
       }}
       contentArrowStyle={{
         borderRight: `7px solid  ${theme.palette.primary.main}`,
@@ -68,7 +69,13 @@ function Entry({ r, onClick }) {
         background: theme.palette.background.default,
         color: theme.palette.primary.main,
       }}
-      icon={r.type === "GEN" ? <ReceiptIcon /> : <BiotechIcon />}
+      icon={
+        r.type === "GEN" ? (
+          <ReceiptIcon size="small" />
+        ) : (
+          <BiotechIcon size="small" />
+        )
+      }
     >
       <Box
         p={1}
@@ -83,18 +90,26 @@ function Entry({ r, onClick }) {
         onMouseOver={() => setIsAnimeVisible(true)}
         onMouseLeave={() => setIsAnimeVisible(false)}
       >
-        <Typography variant="h5">{r.title}</Typography>
-        <Typography variant="subtitle2">{r.subtitle}</Typography>
-        <Typography variant="body2">
-          {r.description.length > 150
-            ? r.description.substring(0, 150) + "..."
-            : r.description}
+        <Typography
+          variant="h6"
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          {r.title}
+          <Typography variant="caption">{r.type}</Typography>
         </Typography>
-        <Typography variant="caption" sx={{ display: "block" }}>
-          {r.type}
-        </Typography>
-
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Typography
+          variant="subtitle2"
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          {r.subtitle}
           <Box>
             {r.file && (
               <IconButton
@@ -105,8 +120,6 @@ function Entry({ r, onClick }) {
                 <AttachFileIcon fontSize="2" />
               </IconButton>
             )}
-          </Box>
-          <Box>
             <IconButton
               onClick={(e) => e.stopPropagation()}
               size="small"
@@ -141,7 +154,7 @@ function Entry({ r, onClick }) {
               <DeleteIcon fontSize="2" />
             </IconButton>
           </Box>
-        </Box>
+        </Typography>
 
         <Box
           sx={{
