@@ -179,19 +179,6 @@ export default function AddEntryModal() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeStep, navigate]);
 
-  useEffect(() => {
-    setEntry({
-      title: "",
-      type: entry.type,
-      repeatFrequency: "MONTHLY",
-      isRecurring: false,
-      isTestAwaited: false,
-      eventDate: new Date().toISOString(),
-      recurringStartDate: new Date().toISOString(),
-      testResultDate: new Date().toISOString(),
-    });
-  }, [entry.type]);
-
   const animationOptions = {
     loop: true,
     autoplay: true,
