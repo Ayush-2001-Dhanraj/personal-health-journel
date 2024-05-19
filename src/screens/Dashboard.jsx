@@ -41,7 +41,6 @@ function Dashboard() {
   };
 
   const handleAttachmentClose = () => {
-    reloadEntries();
     dispatch(closeAttachmentModel());
   };
 

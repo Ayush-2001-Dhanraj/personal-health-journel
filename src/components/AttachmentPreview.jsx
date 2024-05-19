@@ -69,7 +69,7 @@ function AttachmentPreview({ open, handleClose }) {
           <Box
             component="img"
             sx={{
-              width: "70%",
+              height: "250px",
               cursor: "pointer",
               border: "1px solid",
             }}
