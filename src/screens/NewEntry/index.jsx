@@ -34,10 +34,19 @@ function StepContent({ activeStep, entry, handleChangeEntry }) {
     case 1:
       return (
         <Two
+          type={entry?.type}
           title={entry?.title}
           onChangeTitle={(value) => handleChangeEntry("title", value)}
           subtitle={entry?.subtitle}
           onChangeSubtitle={(value) => handleChangeEntry("subtitle", value)}
+          hospitalName={entry?.hospitalName}
+          onChangeHospitalName={(value) =>
+            handleChangeEntry("hospitalName", value)
+          }
+          doctorName={entry?.doctorName}
+          onChangeDoctorName={(value) => handleChangeEntry("doctorName", value)}
+          department={entry?.department}
+          onChangeDepartment={(value) => handleChangeEntry("department", value)}
         />
       );
     case 2:
@@ -54,8 +63,29 @@ function StepContent({ activeStep, entry, handleChangeEntry }) {
     case 3:
       return (
         <Four
+          type={entry?.type}
           eventDate={entry?.eventDate}
           onChangeEventDate={(value) => handleChangeEntry("eventDate", value)}
+          isRecurring={entry?.isRecurring}
+          onChangeIsRecurring={(value) =>
+            handleChangeEntry("isRecurring", value)
+          }
+          repeatFrequency={entry?.repeatFrequency}
+          onChangeRepeatFrequency={(value) =>
+            handleChangeEntry("repeatFrequency", value)
+          }
+          recurringStartDate={entry?.recurringStartDate}
+          onChangeRecurringStartDate={(value) =>
+            handleChangeEntry("recurringStartDate", value)
+          }
+          isTestAwaited={entry?.isTestAwaited}
+          onChangeIsTestAwaited={(value) =>
+            handleChangeEntry("isTestAwaited", value)
+          }
+          testResultDate={entry?.testResultDate}
+          onChangeTestResultDate={(value) =>
+            handleChangeEntry("testResultDate", value)
+          }
         />
       );
     case 4:
@@ -75,11 +105,13 @@ export default function AddEntryModal() {
   const [activeStep, setActiveStep] = useState(0);
   const [entry, setEntry] = useState({
     title: "",
-    subtitle: "",
-    type: "TES",
-    description: "",
+    type: "",
+    repeatFrequency: "MONTHLY",
+    isRecurring: false,
+    isTestAwaited: false,
     eventDate: new Date().toISOString(),
-    attachment: "",
+    recurringStartDate: new Date().toISOString(),
+    testResultDate: new Date().toISOString(),
   });
 
   const { theme } = useSelector((state) => state.global);
@@ -123,6 +155,19 @@ export default function AddEntryModal() {
       }, 2000);
     }
   }, [activeStep, navigate]);
+
+  useEffect(() => {
+    setEntry({
+      title: "",
+      type: entry.type,
+      repeatFrequency: "MONTHLY",
+      isRecurring: false,
+      isTestAwaited: false,
+      eventDate: new Date().toISOString(),
+      recurringStartDate: new Date().toISOString(),
+      testResultDate: new Date().toISOString(),
+    });
+  }, [entry.type]);
 
   const animationOptions = {
     loop: true,
@@ -190,7 +235,10 @@ export default function AddEntryModal() {
                   ? handleSubmit
                   : handleNext
               }
-              disabled={activeStep === 1 && !entry.title.trim()}
+              disabled={
+                (activeStep === 1 && !entry.title.trim()) ||
+                (activeStep === 0 && !entry.type)
+              }
             >
               {activeStep === addEntrySteps.length - 1 ? "Submit" : "Next"}
             </Button>

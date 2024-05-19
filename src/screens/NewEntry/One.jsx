@@ -12,8 +12,7 @@ function One({ type, onChangeType, disabled, compact }) {
       <TextField
         select
         label="Type of Entry"
-        defaultValue="TES"
-        value={type || "TES"}
+        value={type || ""}
         disabled={disabled}
         onChange={handleChange}
         helperText={disabled || compact ? "" : "Please select type of Entry"}

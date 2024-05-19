@@ -2,10 +2,17 @@ import React from "react";
 import { TextField, Box } from "@mui/material";
 
 function Two({
+  type,
   title,
   onChangeTitle,
   subtitle,
   onChangeSubtitle,
+  hospitalName,
+  onChangeHospitalName,
+  doctorName,
+  onChangeDoctorName,
+  department,
+  onChangeDepartment,
   disabled,
   compact,
 }) {
@@ -15,6 +22,18 @@ function Two({
 
   const handleSubtitleChange = (e) => {
     onChangeSubtitle?.(e.target.value);
+  };
+
+  const handleHospitalChange = (e) => {
+    onChangeHospitalName?.(e.target.value);
+  };
+
+  const handleDoctorNameChange = (e) => {
+    onChangeDoctorName?.(e.target.value);
+  };
+
+  const handleDepartmentChange = (e) => {
+    onChangeDepartment?.(e.target.value);
   };
 
   return (
@@ -44,40 +63,45 @@ function Two({
           fullWidth
         />
       </Box>
-      <Box mt={1}>
-        <TextField
-          label="Hospital / Clinic Name"
-          value={subtitle ? subtitle : disabled ? "NA" : ""}
-          disabled={disabled}
-          helperText={disabled || compact ? "" : "Establishment u went to?"}
-          variant="standard"
-          onChange={handleSubtitleChange}
-          autoComplete="off"
-          fullWidth
-        />
-      </Box>
-      <Box mt={1} sx={{ display: "flex", gap: 2 }}>
-        <TextField
-          label="Doctor Name"
-          value={subtitle ? subtitle : disabled ? "NA" : ""}
-          disabled={disabled}
-          helperText={disabled || compact ? "" : "Who attended u?"}
-          variant="standard"
-          onChange={handleSubtitleChange}
-          autoComplete="off"
-          fullWidth
-        />
-        <TextField
-          label="Department"
-          value={subtitle ? subtitle : disabled ? "NA" : ""}
-          disabled={disabled}
-          helperText={disabled || compact ? "" : "Department u visited"}
-          variant="standard"
-          onChange={handleSubtitleChange}
-          autoComplete="off"
-          fullWidth
-        />
-      </Box>
+
+      {type !== "GEN" && (
+        <>
+          <Box mt={1}>
+            <TextField
+              label="Hospital / Clinic Name"
+              value={hospitalName ? hospitalName : disabled ? "NA" : ""}
+              disabled={disabled}
+              helperText={disabled || compact ? "" : "Establishment u went to?"}
+              variant="standard"
+              onChange={handleHospitalChange}
+              autoComplete="off"
+              fullWidth
+            />
+          </Box>
+          <Box mt={1} sx={{ display: "flex", gap: 2 }}>
+            <TextField
+              label="Doctor Name"
+              value={doctorName ? doctorName : disabled ? "NA" : ""}
+              disabled={disabled}
+              helperText={disabled || compact ? "" : "Who attended u?"}
+              variant="standard"
+              onChange={handleDoctorNameChange}
+              autoComplete="off"
+              fullWidth
+            />
+            <TextField
+              label="Department"
+              value={department ? department : disabled ? "NA" : ""}
+              disabled={disabled}
+              helperText={disabled || compact ? "" : "Department u visited"}
+              variant="standard"
+              onChange={handleDepartmentChange}
+              autoComplete="off"
+              fullWidth
+            />
+          </Box>
+        </>
+      )}
     </>
   );
 }

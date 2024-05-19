@@ -12,9 +12,45 @@ import {
 } from "@mui/material";
 import HelpIcon from "@mui/icons-material/Help";
 
-function Four({ eventDate, onChangeEventDate, disabled, compact }) {
+function Four({
+  type,
+  eventDate,
+  onChangeEventDate,
+  isRecurring,
+  onChangeIsRecurring,
+  repeatFrequency,
+  onChangeRepeatFrequency,
+  recurringStartDate,
+  onChangeRecurringStartDate,
+  isTestAwaited,
+  onChangeIsTestAwaited,
+  testResultDate,
+  onChangeTestResultDate,
+  disabled,
+  compact,
+}) {
   const handleEventDateChange = (newDate) => {
     onChangeEventDate?.(new Date(newDate).toISOString());
+  };
+
+  const handleIsRecurringChange = (e) => {
+    onChangeIsRecurring?.(!!+e.target.value);
+  };
+
+  const handleRepeatFrequencyChange = (e) => {
+    onChangeRepeatFrequency?.(e.target.value);
+  };
+
+  const handleRecurringStartDateChange = (newDate) => {
+    onChangeRecurringStartDate?.(new Date(newDate).toISOString());
+  };
+
+  const handleIsTestAwaitedChange = (e) => {
+    onChangeIsTestAwaited?.(!!+e.target.value);
+  };
+
+  const handleTestResultDate = (newDate) => {
+    onChangeTestResultDate?.(new Date(newDate).toISOString());
   };
 
   return (
@@ -27,48 +63,110 @@ function Four({ eventDate, onChangeEventDate, disabled, compact }) {
           onChange={handleEventDateChange}
         />
       </LocalizationProvider>
-      <Box mt={1}>
-        <Typography
-          variant="subtitle2"
-          sx={{ display: "flex", alignItems: "center", gap: 1 }}
-        >
-          Would you like to convert this into a repeating event?
-          <HelpIcon fontSize="2" color="primary" />
-        </Typography>
-        <RadioGroup row defaultValue="No" style={{ marginLeft: 10 }}>
-          <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-          <FormControlLabel value="No" control={<Radio />} label="No" />
-        </RadioGroup>
-      </Box>
-      <Box mt={1} mb={1}>
-        <Typography
-          variant="subtitle2"
-          sx={{ display: "flex", alignItems: "center", gap: 1 }}
-        >
-          Repeat Frequency
-          <HelpIcon fontSize="2" color="primary" />
-        </Typography>
-        <RadioGroup row defaultValue="daily" style={{ marginLeft: 10 }}>
-          <FormControlLabel
-            value="daily"
-            control={<Radio />}
-            label="Every Day"
-          />
-          <FormControlLabel
-            value="week"
-            control={<Radio />}
-            label="Every Week"
-          />
-          <FormControlLabel
-            value="month"
-            control={<Radio />}
-            label="Every Month"
-          />
-        </RadioGroup>
-      </Box>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker disabled={disabled} label="Start Recurring event from" />
-      </LocalizationProvider>
+
+      {type === "TES" && (
+        <>
+          <Box mt={1}>
+            <Typography
+              variant="subtitle2"
+              sx={{ display: "flex", alignItems: "center", gap: 1 }}
+            >
+              Is this test awaited?
+            </Typography>
+            <RadioGroup
+              row
+              value={isTestAwaited ? 1 : 0}
+              onChange={handleIsTestAwaitedChange}
+              style={{ marginLeft: 10 }}
+            >
+              <FormControlLabel value={1} control={<Radio />} label="Yes" />
+              <FormControlLabel value={0} control={<Radio />} label="No" />
+            </RadioGroup>
+          </Box>
+          {isTestAwaited && (
+            <Box mt={1}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  value={dayjs(testResultDate)}
+                  onChange={handleTestResultDate}
+                  disabled={disabled}
+                  label="Test arrival expected on"
+                />
+              </LocalizationProvider>
+            </Box>
+          )}
+        </>
+      )}
+
+      {type === "VIS" && (
+        <>
+          <Box mt={1}>
+            <Typography
+              variant="subtitle2"
+              sx={{ display: "flex", alignItems: "center", gap: 1 }}
+            >
+              Would you like to convert this into a repeating event?
+              <HelpIcon fontSize="2" color="primary" />
+            </Typography>
+
+            <RadioGroup
+              row
+              value={isRecurring ? 1 : 0}
+              onChange={handleIsRecurringChange}
+              style={{ marginLeft: 10 }}
+            >
+              <FormControlLabel value={1} control={<Radio />} label="Yes" />
+              <FormControlLabel value={0} control={<Radio />} label="No" />
+            </RadioGroup>
+          </Box>
+
+          {isRecurring && (
+            <>
+              <Box mt={1} mb={1}>
+                <Typography
+                  variant="subtitle2"
+                  sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                >
+                  Repeat Frequency
+                  <HelpIcon fontSize="2" color="primary" />
+                </Typography>
+
+                <RadioGroup
+                  row
+                  onChange={handleRepeatFrequencyChange}
+                  value={repeatFrequency}
+                  style={{ marginLeft: 10 }}
+                >
+                  <FormControlLabel
+                    value="DAILY"
+                    control={<Radio />}
+                    label="Every Day"
+                  />
+                  <FormControlLabel
+                    value="WEEKLY"
+                    control={<Radio />}
+                    label="Every Week"
+                  />
+                  <FormControlLabel
+                    value="MONTHLY"
+                    control={<Radio />}
+                    label="Every Month"
+                  />
+                </RadioGroup>
+              </Box>
+
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  value={dayjs(recurringStartDate) || ""}
+                  onChange={handleRecurringStartDateChange}
+                  disabled={disabled}
+                  label="Start Recurring event from"
+                />
+              </LocalizationProvider>
+            </>
+          )}
+        </>
+      )}
     </Box>
   );
 }
