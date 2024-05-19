@@ -1,11 +1,28 @@
 import { Box, IconButton, Input, InputAdornment } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useTheme } from "@emotion/react";
+import { useDispatch } from "react-redux";
+import { setSearchTerm } from "../redux/entriesSlice";
 
 function Filter() {
+  const [query, setQuery] = useState("");
+
   const theme = useTheme();
+
+  const dispatch = useDispatch();
+
+  const handleQueryChange = (e) => setQuery(e.target.value);
+
+  const handleConfirm = () => {
+    dispatch(setSearchTerm(query));
+  };
+
+  const handleClear = () => {
+    dispatch(setSearchTerm(""));
+    setQuery("");
+  };
 
   return (
     <Box
@@ -31,14 +48,16 @@ function Filter() {
         borderRadius={8}
       >
         <Input
+          value={query}
+          onChange={handleQueryChange}
           sx={{ color: theme.palette.primary.main }}
           fullWidth
           endAdornment={
             <InputAdornment position="end">
-              <IconButton>
+              <IconButton onClick={handleConfirm}>
                 <CheckIcon color="primary" />
               </IconButton>
-              <IconButton>
+              <IconButton onClick={handleClear}>
                 <ClearIcon color="primary" />
               </IconButton>
             </InputAdornment>

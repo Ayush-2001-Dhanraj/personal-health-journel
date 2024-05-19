@@ -21,6 +21,7 @@ export default function Root() {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.user);
+  const { searchTerm } = useSelector((state) => state.entries);
   const { isAddModelOpen, isViewModelOpen, theme, isLoading } = useSelector(
     (state) => state.global
   );
@@ -34,20 +35,44 @@ export default function Root() {
     dispatch(setUser(res));
   };
 
+  function filterArrayByQuery(arr, query) {
+    const queryLower = query.toLowerCase();
+    return arr.filter((item) => {
+      return [
+        "description",
+        "doctorName",
+        "hospitalName",
+        "title",
+        "subtitle",
+      ].some((key) => {
+        if (item[key]) {
+          return item[key].toLowerCase().includes(queryLower);
+        }
+        return false;
+      });
+    });
+  }
+
   const retrieveAllRecords = async () => {
     const authToken = await clerkAuth.getToken();
     const res = await entriesService.getAllEntries(authToken, user._id);
-    dispatch(refreshEntries(res));
+    const filteredRes = filterArrayByQuery(res, searchTerm);
+    dispatch(refreshEntries(filteredRes));
     if (isLoading) {
       dispatch(setIsLoading(false));
     }
   };
 
   useEffect(() => {
+    if (user._id) retrieveAllRecords();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm]);
+
+  useEffect(() => {
     if (!isAddModelOpen && !isViewModelOpen && user._id && isLoading)
       retrieveAllRecords();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAddModelOpen, isViewModelOpen, user, isLoading]);
+  }, [isAddModelOpen, isViewModelOpen, user, isLoading, searchTerm]);
 
   useEffect(() => {
     if (clerkUser?.primaryEmailAddress?.emailAddress) retrieveUserData();

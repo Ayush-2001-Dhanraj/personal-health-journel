@@ -4,6 +4,7 @@ const initialState = {
   entries: [],
   selectedEntry: null,
   isLoading: true,
+  searchTerm: "",
 };
 
 const entriesSlice = createSlice({
@@ -22,6 +23,9 @@ const entriesSlice = createSlice({
     setIsLoading(state, action) {
       state.isLoading = action.payload;
     },
+    setSearchTerm(state, action) {
+      state.searchTerm = action.payload;
+    },
   },
 });
 
@@ -30,6 +34,7 @@ export const {
   setSelectedEntry,
   resetSelectedEntry,
   setIsLoading,
+  setSearchTerm,
 } = entriesSlice.actions;
 
 export default entriesSlice.reducer;
