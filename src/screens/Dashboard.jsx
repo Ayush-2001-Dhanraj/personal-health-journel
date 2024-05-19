@@ -6,15 +6,12 @@ import { VerticalTimeline } from "react-vertical-timeline-component";
 import { motion } from "framer-motion";
 import Entry from "../components/Entry";
 import ViewEntryModel from "../components/ViewEntry";
-import {
-  resetSelectedEntry,
-  setIsLoading as setIsLoadingEntries,
-  setSelectedEntry,
-} from "../redux/entriesSlice";
+import { resetSelectedEntry, setSelectedEntry } from "../redux/entriesSlice";
 import {
   closeAttachmentModel,
   closeViewModel,
   openViewModel,
+  setIsLoading,
 } from "../redux/globalSlice";
 import AttachmentPreview from "../components/AttachmentPreview";
 import EmptyEntries from "../components/EmptyEntries";
@@ -32,7 +29,7 @@ function Dashboard() {
     (state) => state.global
   );
 
-  const reloadEntries = () => dispatch(setIsLoadingEntries(true));
+  const reloadEntries = () => dispatch(setIsLoading(true));
 
   const handleAddNewClick = () => navigate("/new");
 

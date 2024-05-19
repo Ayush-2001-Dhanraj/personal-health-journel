@@ -6,11 +6,8 @@ import ReceiptIcon from "@mui/icons-material/Receipt";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useTheme } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setIsLoading as setIsLoadingEntries,
-  setSelectedEntry,
-} from "../redux/entriesSlice";
-import { openAttachmentModel } from "../redux/globalSlice";
+import { setSelectedEntry } from "../redux/entriesSlice";
+import { openAttachmentModel, setIsLoading } from "../redux/globalSlice";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import DownloadIcon from "@mui/icons-material/Download";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -43,7 +40,7 @@ function Entry({ r, onClick }) {
     e.stopPropagation();
     const authToken = await clerkAuth.getToken();
     await entriesService.deleteEntry(authToken, r._id);
-    dispatch(setIsLoadingEntries(true));
+    dispatch(setIsLoading(true));
   };
 
   const animationOptions = {

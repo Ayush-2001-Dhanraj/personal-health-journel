@@ -19,11 +19,7 @@ const modalStyle = {
 function ModalWrapper({ open, styles, children }) {
   return (
     <>
-      <Modal
-        open={open}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Modal open={open}>
         <Box sx={{ ...modalStyle, ...styles }}>{children}</Box>
       </Modal>
     </>

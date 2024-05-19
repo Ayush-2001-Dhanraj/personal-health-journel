@@ -9,12 +9,11 @@ import userService from "../services/userService";
 import entriesService from "../services/entriesService";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { setUser } from "../redux/userSlice";
-import {
-  refreshEntries,
-  setIsLoading as setIsLoadingEntries,
-} from "../redux/entriesSlice";
+import { refreshEntries } from "../redux/entriesSlice";
 import "react-vertical-timeline-component/style.min.css";
 import Footer from "../components/Footer";
+import LoadingComp from "../components/LoadingComp";
+import { setIsLoading } from "../redux/globalSlice";
 
 export default function Root() {
   const clerkAuth = useAuth();
@@ -22,8 +21,7 @@ export default function Root() {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.user);
-  const { isLoading: isLoadingEntries } = useSelector((state) => state.entries);
-  const { isAddModelOpen, isViewModelOpen, theme } = useSelector(
+  const { isAddModelOpen, isViewModelOpen, theme, isLoading } = useSelector(
     (state) => state.global
   );
 
@@ -40,14 +38,16 @@ export default function Root() {
     const authToken = await clerkAuth.getToken();
     const res = await entriesService.getAllEntries(authToken, user._id);
     dispatch(refreshEntries(res));
-    if (isLoadingEntries) dispatch(setIsLoadingEntries(false));
+    if (isLoading) {
+      dispatch(setIsLoading(false));
+    }
   };
 
   useEffect(() => {
-    if (!isAddModelOpen && !isViewModelOpen && user._id && isLoadingEntries)
+    if (!isAddModelOpen && !isViewModelOpen && user._id && isLoading)
       retrieveAllRecords();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAddModelOpen, isViewModelOpen, user, isLoadingEntries]);
+  }, [isAddModelOpen, isViewModelOpen, user, isLoading]);
 
   useEffect(() => {
     if (clerkUser?.primaryEmailAddress?.emailAddress) retrieveUserData();
@@ -70,6 +70,7 @@ export default function Root() {
         <Header />
         <Outlet />
         <Footer />
+        <LoadingComp open={isLoading} />
       </Container>
     </ThemeProvider>
   );

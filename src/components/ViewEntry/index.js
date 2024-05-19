@@ -7,15 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import entriesService from "../../services/entriesService";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { openAttachmentModel } from "../../redux/globalSlice";
+import { openAttachmentModel, setIsLoading } from "../../redux/globalSlice";
 import Lottie from "react-lottie";
 import lightAnime from "../../assets/animations/viewEntryDay.json";
 import darkAnime from "../../assets/animations/viewEntryNight.json";
 import { useAuth } from "@clerk/clerk-react";
-import {
-  setIsLoading as setIsLoadingEntries,
-  setSelectedEntry,
-} from "../../redux/entriesSlice";
+import { setSelectedEntry } from "../../redux/entriesSlice";
 import EventPreview from "../EventPreview";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
@@ -23,7 +20,6 @@ import { useNavigate } from "react-router-dom";
 
 function ViewEntryModel({ open, handleClose }) {
   const [entry, setEntry] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -36,22 +32,20 @@ function ViewEntryModel({ open, handleClose }) {
   const dispatch = useDispatch();
 
   const retrieveSelectedEntry = async () => {
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
     const authToken = await clerkAuth.getToken();
     const res = await entriesService.getEntry(authToken, selectedEntry);
     setEntry(res);
-    setIsLoading(false);
+    dispatch(setIsLoading(false));
   };
 
   const handleDelete = async () => {
-    setIsLoading(true);
     const authToken = await clerkAuth.getToken();
     const res = await entriesService.deleteEntry(authToken, selectedEntry);
     if (res && !res.err) {
-      dispatch(setIsLoadingEntries(true));
+      dispatch(setIsLoading(true));
       handleClose();
     }
-    setIsLoading(false);
   };
 
   const handleDownloadClick = () => {};

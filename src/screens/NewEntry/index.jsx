@@ -12,10 +12,7 @@ import Two from "./Two";
 import Three from "./Three";
 import Four from "./Four";
 import entriesService from "../../services/entriesService";
-import {
-  setIsLoading as setIsLoadingEntries,
-  setSelectedEntry,
-} from "../../redux/entriesSlice";
+import { setSelectedEntry } from "../../redux/entriesSlice";
 import { addEntrySteps } from "../../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import Lottie from "react-lottie";
@@ -24,6 +21,7 @@ import darkAnime from "../../assets/animations/addEntryNight.json";
 import { useAuth } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import EventPreview from "../../components/EventPreview";
+import { setIsLoading } from "../../redux/globalSlice";
 
 function StepContent({ activeStep, entry, handleChangeEntry }) {
   switch (activeStep) {
@@ -160,7 +158,7 @@ export default function AddEntryModal() {
     }
 
     if (res && !res.err) {
-      dispatch(setIsLoadingEntries(true));
+      dispatch(setIsLoading(true));
       handleNext();
     }
   };
@@ -178,6 +176,7 @@ export default function AddEntryModal() {
         navigate("/");
       }, 2000);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeStep, navigate]);
 
   useEffect(() => {

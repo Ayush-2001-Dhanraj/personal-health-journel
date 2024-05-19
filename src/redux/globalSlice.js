@@ -5,6 +5,7 @@ const initialState = {
   isAddModelOpen: false,
   isViewModelOpen: false,
   isAttachmentModelOpen: false,
+  isLoading: true,
 };
 
 const globalSlice = createSlice({
@@ -32,6 +33,9 @@ const globalSlice = createSlice({
     openAttachmentModel(state) {
       state.isAttachmentModelOpen = true;
     },
+    setIsLoading(state, action) {
+      state.isLoading = action.payload;
+    },
   },
 });
 
@@ -43,5 +47,6 @@ export const {
   openViewModel,
   closeAttachmentModel,
   openAttachmentModel,
+  setIsLoading,
 } = globalSlice.actions;
 export default globalSlice.reducer;

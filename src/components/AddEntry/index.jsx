@@ -15,13 +15,13 @@ import Three from "./Three";
 import Four from "./Four";
 import ModalWrapper from "../ModalWrapper";
 import entriesService from "../../services/entriesService";
-import { setIsLoading as setIsLoadingEntries } from "../../redux/entriesSlice";
 import { addEntrySteps } from "../../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import Lottie from "react-lottie";
 import lightAnime from "../../assets/animations/addEntryDay.json";
 import darkAnime from "../../assets/animations/addEntryNight.json";
 import { useAuth } from "@clerk/clerk-react";
+import { setIsLoading } from "../../redux/globalSlice";
 
 function StepContent({ activeStep, entry, handleChangeEntry }) {
   switch (activeStep) {
@@ -102,7 +102,7 @@ export default function AddEntryModal({ open, handleClose }) {
 
     const res = await entriesService.createEntry(authToken, user?._id, data);
     if (res && !res.err) {
-      dispatch(setIsLoadingEntries(true));
+      dispatch(setIsLoading(true));
       handleNext();
     }
   };
