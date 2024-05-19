@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Box, Typography, IconButton, CircularProgress } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
 import BiotechIcon from "@mui/icons-material/Biotech";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -9,14 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSelectedEntry } from "../redux/entriesSlice";
 import { openAttachmentModel, setIsLoading } from "../redux/globalSlice";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
-import DownloadIcon from "@mui/icons-material/Download";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { PDFDownloadLink } from "@react-pdf/renderer";
 import Lottie from "react-lottie";
 import lightAnime from "../assets/animations/addEntryDay.json";
 import darkAnime from "../assets/animations/addEntryNight.json";
 import dayjs from "dayjs";
-import Invoice from "./Invoice";
 import { useAuth } from "@clerk/clerk-react";
 import entriesService from "../services/entriesService";
 
@@ -119,31 +116,6 @@ function Entry({ r, onClick }) {
                 <AttachFileIcon fontSize="2" />
               </IconButton>
             )}
-            <IconButton
-              onClickCapture={(e) => e.stopPropagation()}
-              size="small"
-              color="secondary"
-              background="primary"
-            >
-              <PDFDownloadLink
-                document={<Invoice entry={r} />}
-                fileName={`${r.title}.pdf`}
-                style={{
-                  color: theme.palette.background.default,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                {({ blob, url, loading, error }) =>
-                  loading ? (
-                    <CircularProgress color="secondary" size={20} />
-                  ) : (
-                    <DownloadIcon color="secondary" fontSize="6" />
-                  )
-                }
-              </PDFDownloadLink>
-            </IconButton>
             <IconButton
               onClickCapture={handleDelete}
               size="small"
