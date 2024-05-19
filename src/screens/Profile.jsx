@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, Box, Typography, Button, IconButton } from "@mui/material";
 import dayjs from "dayjs";
 import { useAuth, useUser } from "@clerk/clerk-react";
@@ -9,6 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ModelWrapper from "../components/ModalWrapper";
 import userService from "../services/userService";
 import { setUser } from "../redux/userSlice";
+import { setSelectedEntry } from "../redux/entriesSlice";
 
 function Profile() {
   const [avatar, setAvatar] = useState("");
@@ -19,6 +20,7 @@ function Profile() {
   const [isChangeModelOpen, setIsChangeModelOpen] = useState(false);
 
   const dispatch = useDispatch();
+
   const { user: clerkUser } = useUser();
 
   const retrieveUserData = async () => {
@@ -54,6 +56,11 @@ function Profile() {
       retrieveUserData();
     }
   };
+
+  useEffect(() => {
+    dispatch(setSelectedEntry(null));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

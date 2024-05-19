@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Fab, Box } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -52,6 +52,11 @@ function Dashboard() {
     dispatch(setSelectedEntry(r._id));
     handleViewOpen();
   };
+
+  useEffect(() => {
+    dispatch(setSelectedEntry(null));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Box

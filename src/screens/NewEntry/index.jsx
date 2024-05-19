@@ -12,7 +12,10 @@ import Two from "./Two";
 import Three from "./Three";
 import Four from "./Four";
 import entriesService from "../../services/entriesService";
-import { setIsLoading as setIsLoadingEntries } from "../../redux/entriesSlice";
+import {
+  setIsLoading as setIsLoadingEntries,
+  setSelectedEntry,
+} from "../../redux/entriesSlice";
 import { addEntrySteps } from "../../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import Lottie from "react-lottie";
@@ -102,6 +105,21 @@ export default function AddEntryModal() {
 
   const dispatch = useDispatch();
 
+  const clerkAuth = useAuth();
+
+  const { selectedEntry } = useSelector((state) => state.entries);
+
+  useEffect(() => {
+    const retrieveSelectedEntry = async () => {
+      const authToken = await clerkAuth.getToken();
+      const res = await entriesService.getEntry(authToken, selectedEntry);
+      setEntry(res);
+    };
+
+    if (selectedEntry) retrieveSelectedEntry();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedEntry]);
+
   const [activeStep, setActiveStep] = useState(0);
   const [entry, setEntry] = useState({
     title: "",
@@ -124,18 +142,23 @@ export default function AddEntryModal() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const clerkAuth = useAuth();
-
   const handleSubmit = async () => {
     const data = new FormData();
 
     const authToken = await clerkAuth.getToken();
 
-    for (let key in entry) {
-      data.append(key, entry[key]);
+    let res;
+
+    if (selectedEntry) {
+      res = await entriesService.updateEntry(authToken, selectedEntry, entry);
+    } else {
+      for (let key in entry) {
+        data.append(key, entry[key]);
+      }
+
+      res = await entriesService.createEntry(authToken, user?._id, data);
     }
 
-    const res = await entriesService.createEntry(authToken, user?._id, data);
     if (res && !res.err) {
       dispatch(setIsLoadingEntries(true));
       handleNext();
@@ -151,6 +174,7 @@ export default function AddEntryModal() {
   useEffect(() => {
     if (activeStep === addEntrySteps.length) {
       setTimeout(() => {
+        dispatch(setSelectedEntry(null));
         navigate("/");
       }, 2000);
     }
@@ -191,7 +215,7 @@ export default function AddEntryModal() {
         mb={2}
         sx={{ position: "relative" }}
       >
-        Add New Entry
+        {selectedEntry ? "Edit" : "Add New"} Entry
       </Typography>
       <Stepper activeStep={activeStep} alternativeLabel>
         {addEntrySteps.map((label, index) => {
@@ -205,7 +229,8 @@ export default function AddEntryModal() {
 
       {activeStep === addEntrySteps.length ? (
         <Typography sx={{ mt: 2, mb: 1 }} align="center">
-          All Steps completed - entry added successfully
+          All Steps completed - entry {selectedEntry ? "updated" : "added"}{" "}
+          successfully
         </Typography>
       ) : (
         <>
