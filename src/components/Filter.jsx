@@ -28,10 +28,11 @@ function Filter() {
     <Box
       sx={{
         position: "sticky",
-        bottom: 5,
+        bottom: 10,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        opacity: query ? 1 : 0.8,
       }}
     >
       <Box

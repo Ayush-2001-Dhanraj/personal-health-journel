@@ -18,6 +18,7 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import { useNavigate } from "react-router-dom";
 import generatePDF, { Resolution, Margin } from "react-to-pdf";
+import { useTheme } from "@emotion/react";
 
 function ViewEntryModel({ open, handleClose }) {
   const [entry, setEntry] = useState({});
@@ -27,6 +28,8 @@ function ViewEntryModel({ open, handleClose }) {
   const targetRef = useRef();
 
   const clerkAuth = useAuth();
+
+  const theme = useTheme();
 
   const { theme: selectedTheme } = useSelector((state) => state.global);
 
@@ -123,7 +126,7 @@ function ViewEntryModel({ open, handleClose }) {
               justifyContent: "center",
               alignItems: "center",
               gap: 2,
-              background: "white",
+              background: theme.palette.background.default,
               boxSizing: "border-box",
               paddingLeft: { xs: 2, sm: 0 },
               paddingRight: { xs: 2, sm: 0 },
