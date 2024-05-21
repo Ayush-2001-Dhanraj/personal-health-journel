@@ -116,13 +116,19 @@ function ViewEntryModel({ open, handleClose }) {
           <Box
             sx={{
               position: "absolute",
-              top: 10,
-              right: 10,
+              top: { xs: 0, sm: 10 },
+              right: { xs: 0, sm: 10 },
+              transform: { xs: "translate(0, -50%)", sm: "none" },
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               gap: 2,
+              background: "white",
+              boxSizing: "border-box",
+              paddingLeft: { xs: 2, sm: 0 },
+              paddingRight: { xs: 2, sm: 0 },
             }}
+            borderRadius={4}
           >
             <IconButton
               color="primary"

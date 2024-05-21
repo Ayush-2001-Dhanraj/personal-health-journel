@@ -14,7 +14,7 @@ function Footer() {
       }}
     >
       <Typography variant="subtitle2">
-        Ayush Dhanraj &copy; {new Date().getFullYear()}
+        PurePath Journal &copy; {new Date().getFullYear()}
       </Typography>
       <Divider
         orientation="vertical"
