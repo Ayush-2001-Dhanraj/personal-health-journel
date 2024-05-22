@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Box, Typography, IconButton } from "@mui/material";
+import { Box, Typography, IconButton, Tooltip } from "@mui/material";
 import BiotechIcon from "@mui/icons-material/Biotech";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -108,22 +108,26 @@ function Entry({ r, onClick }) {
 
           <Box>
             {r.file && (
-              <IconButton
-                onClickCapture={handleAttachmentClick}
-                size="small"
-                sx={{ color: theme.palette.background.default }}
-              >
-                <AttachFileIcon fontSize="2" />
-              </IconButton>
+              <Tooltip title="View Attachment">
+                <IconButton
+                  onClickCapture={handleAttachmentClick}
+                  size="small"
+                  sx={{ color: theme.palette.background.default }}
+                >
+                  <AttachFileIcon fontSize="2" />
+                </IconButton>
+              </Tooltip>
             )}
-            <IconButton
-              onClickCapture={handleDelete}
-              size="small"
-              color="secondary"
-              background="primary"
-            >
-              <DeleteIcon fontSize="2" />
-            </IconButton>
+            <Tooltip title="Delete Entry">
+              <IconButton
+                onClickCapture={handleDelete}
+                size="small"
+                color="secondary"
+                background="primary"
+              >
+                <DeleteIcon fontSize="2" />
+              </IconButton>
+            </Tooltip>
           </Box>
         </Box>
 

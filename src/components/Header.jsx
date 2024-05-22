@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Grid, IconButton, Box } from "@mui/material";
+import { Typography, Grid, IconButton, Box, Tooltip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
@@ -59,7 +59,9 @@ function Header() {
           }}
         >
           <IconButton color="primary" onClick={handleOnClickThemeBtn}>
-            {theme === "light" ? <LightModeIcon /> : <DarkModeIcon />}
+            <Tooltip title="Change Theme">
+              {theme === "light" ? <LightModeIcon /> : <DarkModeIcon />}
+            </Tooltip>
           </IconButton>
         </Grid>
         <Grid
@@ -76,10 +78,12 @@ function Header() {
             flexWrap: "wrap",
           }}
         >
-          <Clock />
-          <Typography variant="caption" color="secondary">
-            {user?.name}
-          </Typography>
+          <Tooltip title="View Profile">
+            <Clock />
+            <Typography variant="caption" color="secondary">
+              {user?.name}
+            </Typography>
+          </Tooltip>
         </Grid>
         <Box
           sx={{

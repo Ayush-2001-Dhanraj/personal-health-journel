@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Fab, Box } from "@mui/material";
+import { Fab, Box, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import { motion } from "framer-motion";
@@ -19,7 +19,7 @@ import Filter from "../components/Filter";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
-  const { entries } = useSelector((state) => state.entries);
+  const { entries, searchTerm } = useSelector((state) => state.entries);
 
   const navigate = useNavigate();
 
@@ -80,7 +80,9 @@ function Dashboard() {
             transition: { duration: 1 },
           }}
         >
-          <AddIcon />
+          <Tooltip title="Add New Entry">
+            <AddIcon />
+          </Tooltip>
         </Fab>
       </Box>
       {/* Timeline */}
@@ -94,12 +96,16 @@ function Dashboard() {
         <EmptyEntries />
       )}
 
-      {!!entries.length && <Filter />}
+      {/* Filters */}
+
+      {(!!entries.length || searchTerm) && <Filter />}
 
       {/* models */}
+
       {isViewModelOpen && (
         <ViewEntryModel open={isViewModelOpen} handleClose={handleViewClose} />
       )}
+
       {isAttachmentModelOpen && (
         <AttachmentPreview
           open={isAttachmentModelOpen}

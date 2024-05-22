@@ -1,6 +1,6 @@
 import React from "react";
 import GoogleIcon from "@mui/icons-material/Google";
-import { Typography, IconButton } from "@mui/material";
+import { Typography, IconButton, Tooltip } from "@mui/material";
 import { useSignIn } from "@clerk/clerk-react";
 import { useTheme } from "@mui/material/styles";
 
@@ -27,7 +27,9 @@ function Register() {
           margin: 1,
         }}
       >
-        <GoogleIcon />
+        <Tooltip title="Register via Google" placement="left">
+          <GoogleIcon />
+        </Tooltip>
       </IconButton>
     </>
   );
