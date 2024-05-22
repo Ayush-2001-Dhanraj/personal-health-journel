@@ -78,7 +78,9 @@ function Entry({ r, onClick }) {
           color: theme.palette.background.default,
           cursor: "pointer",
           border: `1px solid ${theme.palette.background.default}`,
-          "&:hover": { boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" },
+          "&:hover": {
+            boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+          },
         }}
         borderRadius={1}
         onMouseOver={() => setIsAnimeVisible(true)}

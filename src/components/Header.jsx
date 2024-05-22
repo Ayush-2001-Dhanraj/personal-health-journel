@@ -58,11 +58,11 @@ function Header() {
             alignItems: "center",
           }}
         >
-          <IconButton color="primary" onClick={handleOnClickThemeBtn}>
-            <Tooltip title="Change Theme">
+          <Tooltip title="Change Theme">
+            <IconButton color="primary" onClick={handleOnClickThemeBtn}>
               {theme === "light" ? <LightModeIcon /> : <DarkModeIcon />}
-            </Tooltip>
-          </IconButton>
+            </IconButton>
+          </Tooltip>
         </Grid>
         <Grid
           item
