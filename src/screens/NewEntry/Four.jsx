@@ -9,6 +9,7 @@ import {
   RadioGroup,
   FormControlLabel,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import HelpIcon from "@mui/icons-material/Help";
 
@@ -106,7 +107,12 @@ function Four({
               sx={{ display: "flex", alignItems: "center", gap: 1 }}
             >
               Would you like to convert this into a repeating event?
-              <HelpIcon fontSize="2" color="primary" />
+              <Tooltip
+                title="Yes if you have to do the same thing often."
+                placement="right"
+              >
+                <HelpIcon fontSize="2" color="primary" />
+              </Tooltip>
             </Typography>
 
             <RadioGroup
@@ -128,7 +134,12 @@ function Four({
                   sx={{ display: "flex", alignItems: "center", gap: 1 }}
                 >
                   Repeat Frequency
-                  <HelpIcon fontSize="2" color="primary" />
+                  <Tooltip
+                    title="How often do you have to repeat this?"
+                    placement="right"
+                  >
+                    <HelpIcon fontSize="2" color="primary" />
+                  </Tooltip>
                 </Typography>
 
                 <RadioGroup

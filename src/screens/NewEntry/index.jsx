@@ -6,6 +6,7 @@ import {
   StepLabel,
   Button,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import One from "./One";
 import Two from "./Two";
@@ -119,6 +120,7 @@ export default function AddEntryModal() {
   }, [selectedEntry]);
 
   const [activeStep, setActiveStep] = useState(0);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
   const [entry, setEntry] = useState({
     title: "",
     type: "",
@@ -141,6 +143,7 @@ export default function AddEntryModal() {
   };
 
   const handleSubmit = async () => {
+    setIsSubmitDisabled(true);
     const data = new FormData();
 
     const authToken = await clerkAuth.getToken();
@@ -161,6 +164,7 @@ export default function AddEntryModal() {
       dispatch(setIsLoading(true));
       handleNext();
     }
+    setIsSubmitDisabled(false);
   };
 
   const handleChangeEntry = (name, value) => {
@@ -248,10 +252,17 @@ export default function AddEntryModal() {
               }
               disabled={
                 (activeStep === 1 && !entry.title.trim()) ||
-                (activeStep === 0 && !entry.type)
+                (activeStep === 0 && !entry.type) ||
+                isSubmitDisabled
               }
             >
-              {activeStep === addEntrySteps.length - 1 ? "Submit" : "Next"}
+              {isSubmitDisabled ? (
+                <CircularProgress size={20} />
+              ) : activeStep === addEntrySteps.length - 1 ? (
+                "Submit"
+              ) : (
+                "Next"
+              )}
             </Button>
           </Box>
         </>
